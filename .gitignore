@@ -1,0 +1,7 @@
+# Copias de respaldo que Word y PowerPoint crean al editar
+~$*
+*.tmp
+
+# Salidas de la herramienta y caché de Python
+__pycache__/
+salida/

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Trazabilidad de una versión — GCMS Unidad 2</title>
+<style>
+:root{
+  --osc:#1C2B33; --txt:#31424B; --gris:#5E6E76; --claro:#EFF2F3; --linea:#CFDAE0; --crema:#F6EAE1;
+  --coral:#C2622C; --teal:#46707E; --cafe:#9E5C3B; --verde:#2F6B4C; --ambar:#A9781E; --rojo:#A1352A; --foco:#0B63CE;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:#F3F5F6;color:var(--txt);font-size:16px;line-height:1.5}
+:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+.header{background:var(--osc);color:#fff;padding:16px 28px}
+.header h1{font-size:20px;font-weight:700}
+.header p{font-size:13px;color:#9FB2BA;margin-top:2px}
+.header .encuadre{font-size:15px;color:#DCE6EA;margin-top:10px;max-width:1050px;border-left:4px solid var(--coral);padding-left:12px}
+.wrap{max-width:1100px;margin:22px auto 40px;padding:0 16px}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 14px rgba(28,43,51,.08);padding:22px 26px;margin-bottom:18px}
+.card h2{font-size:19px;color:var(--osc);margin-bottom:6px}
+.small{font-size:14px;color:var(--gris)}
+.resumen{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:12px}
+.resumen div{background:var(--claro);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--gris)}
+.resumen b{display:block;font-size:22px;color:var(--osc)}
+.lista{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.entrada{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;text-align:left;font:inherit;color:inherit;
+  background:#fff;border:1px solid var(--linea);border-left:5px solid var(--linea);border-radius:0 8px 8px 0;padding:10px 14px;cursor:pointer}
+.entrada:hover,.entrada[aria-expanded="true"]{background:var(--claro)}
+.entrada.git{border-left-color:var(--verde)} .entrada.busqueda{border-left-color:var(--ambar)} .entrada.parcial{border-left-color:var(--rojo)}
+.entrada .t{font-size:15px;color:var(--osc)}
+.entrada code{font-size:13px}
+.estado{font-size:12px;font-weight:700;border-radius:12px;padding:2px 10px;white-space:nowrap}
+.estado.git{background:#E3F1E8;color:var(--verde)} .estado.busqueda{background:#FBF1DC;color:var(--ambar)} .estado.parcial{background:#FBE9E6;color:var(--rojo)}
+.detalle{display:none;padding:12px 4px 4px}
+.detalle.abierto{display:block}
+.cadena{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.eslabon{border-radius:8px;padding:9px 10px;font-size:13.5px;position:relative;border:2px solid transparent}
+.eslabon b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.eslabon.ok{background:#E3F1E8;border-color:#B9DCC6} .eslabon.ok b{color:var(--verde)}
+.eslabon.busca{background:#FBF1DC;border-color:#EBD3A0} .eslabon.busca b{color:var(--ambar)}
+.eslabon.roto{background:#FBE9E6;border-color:#EEC0B9} .eslabon.roto b{color:var(--rojo)}
+.eslabon .como{display:block;font-size:12.5px;color:var(--gris);margin-top:4px}
+.leyenda{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--gris);margin-top:12px}
+.leyenda i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.nota{font-size:14px;margin-top:10px;background:var(--crema);border-radius:8px;padding:10px 14px}
+code{font-family:Consolas,'Courier New',monospace;background:var(--claro);padding:0 4px;border-radius:3px}
+@media (max-width:760px){.cadena{grid-template-columns:1fr}.entrada{grid-template-columns:1fr}.estado{justify-self:start}code{word-break:break-word}.header{padding:14px 16px}.card{padding:18px 16px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Trazabilidad de una versión</h1>
+  <p>Gestión de Configuración y Mantenimiento de Software · Unidad 2 · Formato F-12</p>
+  <div class="encuadre">Las diez entradas del registro de cambios de Flask 3.1.0, seguidas desde el motivo hasta la
+    prueba. Cada eslabón dice si se encuentra solo con Git, si hay que buscarlo por el contenido del cambio o si vive
+    únicamente en GitHub. Datos del repositorio público de Flask.</div>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <h2>Resumen</h2>
+    <p class="small">Haga clic en cada entrada para ver su cadena completa.</p>
+    <div class="resumen" id="resumen"></div>
+    <div class="leyenda">
+      <span><i style="background:#B9DCC6"></i>Se encuentra solo con Git</span>
+      <span><i style="background:#EBD3A0"></i>Se encuentra buscando el contenido del cambio</span>
+      <span><i style="background:#EEC0B9"></i>Solo en GitHub o no existe</span>
+    </div>
+    <div class="lista" id="lista"></div>
+  </div>
+
+  <div class="card">
+    <h2>Cómo se obtuvo</h2>
+    <p class="small">El estado de cada entrada sale de <code>herramientas/configuracion.py traza flask --desde 3.0.3
+      --hasta 3.1.0 --registro CHANGES.rst</code>. Los commits de las entradas que no citan un PR en Git se encontraron
+      con <code>git log -S</code>, buscando un identificador que el cambio introduce, y el PR con la primera fusión que
+      lo contiene. La prueba es el archivo de <code>tests/</code> que el commit modificó.</p>
+    <p class="nota">Lo que muestra Flask: un registro de cambios cuidadoso no basta. Si el vínculo entre el motivo y el
+      cambio vive en la plataforma, la trazabilidad depende de esa plataforma. Su estrategia tiene que decir dónde vive
+      cada vínculo.</p>
+  </div>
+</div>
+
+<script>
+// [texto, motivo, pr, commit, fecha, prueba, estado]
+// estado: git = la referencia del registro aparece en un mensaje de commit; busqueda = hay que buscar por contenido
+const ENTRADAS = [
+ ["Drop support for Python 3.8", "PR 5623", "5623", "99ce7ed0", "2024-10-31", "", "git"],
+ ["Update minimum dependency versions to latest feature releases", "PR 5624 y 5633", "5624 y 5633", "62c56e08 y 07c7d573", "2024-10-31 y 2024-11-08", "", "git"],
+ ["Provide a configuration option to control automatic option responses", "PR 5496", "5496", "d718ecf6", "2024-06-07", "", "parcial"],
+ ["open_resource takes an encoding parameter", "Issue 5504", "5526", "28d5a4d7", "2024-07-10", "tests/test_helpers.py", "busqueda"],
+ ["Request.max_content_length can be customized per-request", "Issue 5625", "5626", "c7a53888", "2024-11-01", "tests/test_basic.py, tests/test_request.py", "busqueda"],
+ ["Support for the Partitioned cookie attribute (CHIPS)", "Issue 5472", "5499", "9efc1ebe", "2024-11-01", "tests/test_basic.py", "busqueda"],
+ ["-e path takes precedence over default .env and .flaskenv files", "Issue 5628", "5630", "2c316030", "2024-11-07", "tests/test_cli.py", "busqueda"],
+ ["Support key rotation with SECRET_KEY_FALLBACKS", "Issue 5621", "5632", "e13373f8", "2024-11-08", "tests/test_basic.py y verificaciones de tipos", "busqueda"],
+ ["Fix host_matching and subdomain_matching with SERVER_NAME", "Issue 5553", "5634", "4995a775", "2024-11-12", "tests/test_basic.py, tests/test_blueprints.py", "busqueda"],
+ ["Request.trusted_hosts is checked during routing", "Issue 5636", "5637", "4f7156f2", "2024-11-12", "tests/test_request.py", "busqueda"]
+];
+const ETIQ = { git: "Trazable con Git", busqueda: "Requiere búsqueda y GitHub", parcial: "Cadena incompleta" };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function cadena(e) {
+  const [texto, motivo, pr, commit, fecha, prueba, estado] = e;
+  const esPR = motivo.startsWith("PR");
+  const nodos = [];
+  nodos.push(["ok", "Registro", "CHANGES.rst cita " + motivo.toLowerCase(), "Está en el repositorio"]);
+  if (esPR) nodos.push(["ok", "Motivo", motivo, "El registro cita el PR directamente; el issue de origen, si existe, está en GitHub"]);
+  else nodos.push(["roto", "Motivo → PR", motivo + " → PR " + pr, "Qué PR resolvió el issue solo consta en GitHub"]);
+  if (estado === "git") nodos.push(["ok", "PR → commit", "PR " + pr, "El número del PR está en el mensaje del commit"]);
+  else if (estado === "parcial") nodos.push(["busca", "PR → commit", "Sin número en el mensaje", "Se encontró con git log -S; ninguna fusión cita el PR 5496"]);
+  else nodos.push(["busca", "PR → commit", "Fusión con (#" + pr + ")", "Se llega al commit buscando el contenido y subiendo a su fusión"]);
+  nodos.push(["ok", "Versión", "3.1.0", "El commit " + commit + " (" + fecha + ") está en la etiqueta 3.1.0"]);
+  if (prueba) nodos.push(["ok", "Prueba", prueba, "El commit modificó estas pruebas"]);
+  else if (esPR && estado === "git") nodos.push(["busca", "Prueba", "Sin prueba nueva", "Se verifica con la matriz de CI, que el mismo cambio ajustó"]);
+  else nodos.push(["roto", "Prueba", "Sin prueba nueva", "El commit no modificó ningún archivo de tests/"]);
+  return nodos.map(([c, t, v, como]) => `<div class="eslabon ${c}"><b>${esc(t)}</b>${esc(v)}<span class="como">${esc(como)}</span></div>`).join("");
+}
+
+const conteo = ENTRADAS.reduce((a, e) => (a[e[6]] = (a[e[6]] || 0) + 1, a), {});
+document.getElementById("resumen").innerHTML = `
+  <div><b>${ENTRADAS.length}</b>entradas en la 3.1.0, todas con referencia</div>
+  <div><b>${conteo.git || 0}</b>se siguen solo con Git</div>
+  <div><b>${conteo.busqueda || 0}</b>necesitan búsqueda y GitHub</div>
+  <div><b>${conteo.parcial || 0}</b>con la cadena incompleta</div>`;
+
+document.getElementById("lista").innerHTML = ENTRADAS.map((e, i) => `
+  <div>
+    <button class="entrada ${e[6]}" aria-expanded="false" aria-controls="d${i}" data-i="${i}">
+      <span class="t">${esc(e[0])} <code>${esc(e[1])}</code></span>
+      <span class="estado ${e[6]}">${ETIQ[e[6]]}</span>
+    </button>
+    <div class="detalle" id="d${i}"><div class="cadena">${cadena(e)}</div></div>
+  </div>`).join("");
+
+document.querySelectorAll(".entrada").forEach(b => b.onclick = () => {
+  const abierto = b.getAttribute("aria-expanded") === "true";
+  b.setAttribute("aria-expanded", String(!abierto));
+  document.getElementById("d" + b.dataset.i).classList.toggle("abierto", !abierto);
+});
+</script>
+</body>
+</html>

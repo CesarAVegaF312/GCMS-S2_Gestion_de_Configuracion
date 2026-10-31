@@ -1,0 +1,12 @@
+entrada,referencias,encontradas_en_git,estado
+- Drop support for Python 3.8. :pr:`5623`,5623,5623,trazable en Git
+"- Update minimum dependency versions to latest feature releases. Werkzeug >= 3.1, ItsDangerous >= 2.2, Blinker >= 1.9. :pr:`5624,5633`",5624 5633,5624 5633,trazable en Git
+- Provide a configuration option to control automatic option responses. :pr:`5496`,5496,,solo fuera de Git
+- ``Flask.open_resource``/``open_instance_resource`` and ``Blueprint.open_resource`` take an ``encoding`` parameter to use when opening in text mode. It default,5504,,solo fuera de Git
+- ``Request.max_content_length`` can be customized per-request instead of only through the ``MAX_CONTENT_LENGTH`` config. Added ``MAX_FORM_MEMORY_SIZE`` and ``M,5625,,solo fuera de Git
+"- Add support for the ``Partitioned`` cookie attribute (CHIPS), with the ``SESSION_COOKIE_PARTITIONED`` config. :issue:`5472`",5472,,solo fuera de Git
+- ``-e path`` takes precedence over default ``.env`` and ``.flaskenv`` files. ``load_dotenv`` loads default files in addition to a path unless ``load_defaults=F,5628,,solo fuera de Git
+"- Support key rotation with the ``SECRET_KEY_FALLBACKS`` config, a list of old secret keys that can still be used for unsigning. Extensions will need to add sup",5621,,solo fuera de Git
+- Fix how setting ``host_matching=True`` or ``subdomain_matching=False`` interacts with ``SERVER_NAME``. Setting ``SERVER_NAME`` no longer restricts requests to,5553,,solo fuera de Git
+"- ``Request.trusted_hosts`` is checked during routing, and can be set through the ``TRUSTED_HOSTS`` config. :issue:`5636`",5636,,solo fuera de Git
+- Correct type for ``path`` argument to ``send_file``. :issue:`5336`,5336,,solo fuera de Git

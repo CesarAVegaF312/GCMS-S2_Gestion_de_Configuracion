@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ítems de configuración — GCMS Unidad 2</title>
+<style>
+:root{
+  --osc:#1C2B33; --txt:#31424B; --gris:#5E6E76; --claro:#EFF2F3; --linea:#CFDAE0; --crema:#F6EAE1;
+  --coral:#C2622C; --teal:#46707E; --verde:#2F6B4C; --rojo:#A1352A; --foco:#0B63CE;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:#F3F5F6;color:var(--txt);font-size:16px;line-height:1.5}
+:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+.header{background:var(--osc);color:#fff;padding:16px 28px}
+.header h1{font-size:20px;font-weight:700}
+.header p{font-size:13px;color:#9FB2BA;margin-top:2px}
+.header .encuadre{font-size:15px;color:#DCE6EA;margin-top:10px;max-width:1000px;border-left:4px solid var(--coral);padding-left:12px}
+.wrap{max-width:1000px;margin:22px auto 40px;padding:0 16px}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 14px rgba(28,43,51,.08);padding:22px 26px;margin-bottom:18px}
+.card h2{font-size:19px;color:var(--osc);margin-bottom:6px}
+.criterio{background:var(--claro);border-left:4px solid var(--teal);border-radius:0 8px 8px 0;padding:10px 14px;font-size:15px}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.progreso{font-size:14px;color:var(--gris);font-weight:700}
+.puntos{height:8px;background:var(--claro);border-radius:4px;overflow:hidden;flex:1;min-width:140px}
+.puntos i{display:block;height:100%;background:var(--coral);transition:width .3s}
+.artefacto{font-family:Consolas,'Courier New',monospace;font-size:18px;font-weight:700;color:var(--osc);margin:2px 0 6px}
+.contexto{font-size:15px;margin-bottom:14px}
+.opciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.opciones button{font:inherit;font-size:15px;padding:10px 12px;border-radius:8px;border:1px solid var(--linea);background:#fff;
+  color:var(--osc);cursor:pointer;text-align:left}
+.opciones button:hover:not(:disabled){border-color:var(--teal);background:var(--claro)}
+.opciones button:disabled{cursor:default}
+.opciones button.correcta{background:#E3F1E8;border-color:var(--verde);color:var(--verde);font-weight:700}
+.opciones button.errada{background:#FBE9E6;border-color:var(--rojo);color:var(--rojo)}
+.respuesta{display:none;margin-top:14px;border-radius:8px;padding:12px 16px;background:var(--crema)}
+.respuesta.visible{display:block}
+.respuesta h3{font-size:15px;color:var(--osc);margin-bottom:4px}
+.acciones{display:flex;gap:10px;margin-top:14px}
+.acciones button{font:inherit;font-size:15px;font-weight:700;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;background:var(--osc);color:#fff}
+.acciones button:disabled{opacity:.4;cursor:default}
+.acciones button.sec{background:var(--claro);color:var(--osc)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:8px}
+th{background:var(--osc);color:#fff;text-align:left;padding:7px 10px}
+td{border-bottom:1px solid var(--linea);padding:7px 10px;vertical-align:top}
+.ok{color:var(--verde);font-weight:700} .no{color:var(--rojo);font-weight:700}
+@media (max-width:600px){.header{padding:14px 16px}.card{padding:18px 16px}.artefacto{font-size:16px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>¿Es ítem de configuración?</h1>
+  <p>Gestión de Configuración y Mantenimiento de Software · Unidad 2 · Formato F-08</p>
+  <div class="encuadre">Catorce artefactos que aparecen alrededor de un sistema como Flask. Decida si cada uno es ítem
+    de configuración y dónde debe vivir. No se califica: sirve para calibrar el criterio antes de hacer el inventario
+    de su propio sistema.</div>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <h2>El criterio</h2>
+    <p class="criterio">Un ítem de configuración es cualquier artefacto cuyo cambio puede afectar el comportamiento o la
+      reproducibilidad del sistema. Lo que se genera a partir de otros ítems no se controla por separado: se controla
+      su fuente.</p>
+  </div>
+
+  <div class="card" id="tarjeta">
+    <div class="barra"><span class="progreso" id="progreso"></span><div class="puntos" aria-hidden="true"><i id="avance"></i></div></div>
+    <div class="artefacto" id="artefacto"></div>
+    <p class="contexto" id="contexto"></p>
+    <div class="opciones" id="opciones" role="group" aria-label="Decisión"></div>
+    <div class="respuesta" id="respuesta" aria-live="polite"><h3 id="resp-tit"></h3><p id="resp-txt"></p></div>
+    <div class="acciones"><button id="siguiente" disabled>Siguiente artefacto</button></div>
+  </div>
+
+  <div class="card" id="resumen" hidden>
+    <h2>Resumen</h2>
+    <p id="resumen-txt"></p>
+    <table><thead><tr><th>Artefacto</th><th>Usted</th><th>Respuesta</th></tr></thead><tbody id="filas"></tbody></table>
+    <div class="acciones"><button id="reiniciar" class="sec">Empezar de nuevo</button></div>
+  </div>
+</div>
+
+<script>
+const OPC = { repo: "Sí, versionado en el repositorio", fuera: "Sí, pero controlado fuera del repositorio", no: "No es ítem de configuración" };
+const CASOS = [
+ ["src/flask/app.py", "El módulo principal del framework.", "repo",
+  "Es el producto. Cualquier cambio altera el comportamiento."],
+ ["uv.lock", "Archivo generado por la herramienta de dependencias, con la versión exacta de cada dependencia.", "repo",
+  "Aunque lo genera una herramienta, fija qué versiones se usan para probar y construir. Sin él, dos construcciones de la misma etiqueta pueden dar resultados distintos. Por eso Flask lo versiona y sus pruebas corren con --locked."],
+ [".github/workflows/publish.yaml", "El flujo que construye y publica cada versión.", "repo",
+  "Define cómo se construye lo que se entrega. Un cambio aquí puede cambiar el paquete publicado sin tocar una línea del producto."],
+ [".venv/", "El entorno virtual de Python en el computador de un desarrollador.", "no",
+  "Se genera a partir de pyproject.toml y uv.lock. Lo que se controla es la fuente; el entorno se reconstruye cuando se necesita."],
+ ["__pycache__/", "Archivos compilados que Python crea al ejecutar.", "no",
+  "Son un subproducto de la ejecución. Van en .gitignore."],
+ ["El paquete de Flask 3.1.3 en PyPI", "El archivo que instalan los usuarios con pip.", "fuera",
+  "Es el artefacto entregado: forma parte de la línea base de entrega y se identifica por versión y hash. No vive en Git, sino en un repositorio de paquetes, y no se reemplaza una vez publicado."],
+ ["La credencial para publicar en PyPI", "Lo que autoriza a subir un paquete.", "fuera",
+  "Se controla con rigor, pero nunca en el repositorio. El flujo de Flask pide una credencial temporal al momento de publicar (permiso id-token), así que no hay token guardado."],
+ [".github/pull_request_template.md", "La plantilla que se muestra al abrir un PR.", "repo",
+  "Define qué se le exige a un cambio: issue previo, pruebas, documentación y entrada en el registro de cambios. Es parte del proceso de control de cambios."],
+ ["CHANGES.rst", "El registro de cambios por versión.", "repo",
+  "Es parte del registro del estado: dice qué cambió en cada versión y cita los PR o issues. Se entrega con el código."],
+ ["docs/_build/html/", "La documentación ya convertida a HTML.", "no",
+  "Se genera desde docs/. Lo que se controla es la fuente; el HTML se construye y se publica en cada versión."],
+ ["Las reglas de protección de la rama main", "Configuración en GitHub de quién puede fusionar y qué verificaciones exige.", "fuera",
+  "Afecta qué cambios llegan a la línea base, así que es configuración. Vive en la plataforma: el inventario debe nombrarla y alguien debe ser responsable de ella."],
+ ["El esquema de la base de datos y sus migraciones", "En un sistema con base de datos: las tablas y los scripts que las cambian.", "repo",
+  "Un cambio de esquema rompe la aplicación tan fácil como un cambio de código. Las migraciones se versionan junto al código que las necesita."],
+ ["Los datos de clientes en la base de producción", "Los registros que la aplicación guarda mientras opera.", "no",
+  "Son datos operativos: se respaldan y se protegen, pero no son configuración. Los datos de referencia que el sistema necesita para funcionar, como catálogos fijos, sí pueden serlo."],
+ ["El registro de una ejecución del pipeline", "La salida de las pruebas de un PR.", "no",
+  "Es evidencia del control de cambios y conviene conservarla para auditar, pero no es un ítem: no se cambia ni se versiona."]
+];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let i = 0, elecciones = [];
+
+function pintar() {
+  const [art, ctx] = CASOS[i];
+  $("progreso").textContent = `Artefacto ${i + 1} de ${CASOS.length}`;
+  $("avance").style.width = (i / CASOS.length * 100) + "%";
+  $("artefacto").textContent = art;
+  $("contexto").textContent = ctx;
+  $("opciones").innerHTML = Object.entries(OPC).map(([k, v]) => `<button data-k="${k}">${v}</button>`).join("");
+  $("respuesta").classList.remove("visible");
+  $("siguiente").disabled = true;
+  $("siguiente").textContent = i === CASOS.length - 1 ? "Ver el resumen" : "Siguiente artefacto";
+  document.querySelectorAll("#opciones button").forEach(b => b.onclick = () => elegir(b.dataset.k));
+}
+
+function elegir(k) {
+  const [, , correcta, razon] = CASOS[i];
+  elecciones[i] = k;
+  document.querySelectorAll("#opciones button").forEach(b => {
+    b.disabled = true;
+    if (b.dataset.k === correcta) b.classList.add("correcta");
+    else if (b.dataset.k === k) b.classList.add("errada");
+  });
+  $("resp-tit").textContent = (k === correcta ? "Coincide: " : "La respuesta: ") + OPC[correcta].toLowerCase();
+  $("resp-txt").textContent = razon;
+  $("respuesta").classList.add("visible");
+  $("siguiente").disabled = false;
+  $("siguiente").focus();
+}
+
+function resumen() {
+  $("tarjeta").hidden = true; $("resumen").hidden = false;
+  const bien = elecciones.filter((k, n) => k === CASOS[n][2]).length;
+  $("resumen-txt").textContent = `Coincidió en ${bien} de ${CASOS.length}. Los que fallaron suelen ser los generados (se controla la fuente) y los que viven fuera del repositorio (también son configuración).`;
+  $("filas").innerHTML = CASOS.map((c, n) => `<tr><td><code>${esc(c[0])}</code></td>
+    <td class="${elecciones[n] === c[2] ? "ok" : "no"}">${esc(OPC[elecciones[n]])}</td><td>${esc(OPC[c[2]])}</td></tr>`).join("");
+}
+
+$("siguiente").onclick = () => { if (i < CASOS.length - 1) { i++; pintar(); } else resumen(); };
+$("reiniciar").onclick = () => { i = 0; elecciones = []; $("resumen").hidden = true; $("tarjeta").hidden = false; pintar(); };
+pintar();
+</script>
+</body>
+</html>

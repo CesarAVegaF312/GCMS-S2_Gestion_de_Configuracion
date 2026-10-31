@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"/>
+<meta name="theme-color" content="#0E181D"/>
+<meta name="color-scheme" content="light"/>
+<title>GCMS S2 · Gestión de Configuración — Presentación</title>
+<style>
+:root{
+  --osc:#1C2B33; --txt:#31424B; --gris:#6B7A82; --claro:#EFF2F3; --linea:#CFDAE0; --crema:#F6EAE1;
+  --coral:#C2622C; --teal:#46707E; --teal2:#34535D; --cafe:#9E5C3B;
+  --verde:#3F7A5B; --ambar:#C9932E; --rojo:#B03A2E; --osc2:#263842;
+  --serif:'Cambria','Georgia','Times New Roman',serif;
+  --sans:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  --sombra:0 18px 48px rgba(28,43,51,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#0E181D;font-family:var(--sans);color:var(--txt);overflow:hidden}
+body.notas-abiertas{overflow:auto}
+
+/* ── escenario: una diapositiva de 1280×720 escalada al viewport ── */
+#escenario{position:fixed;inset:0;overflow:hidden}
+#lienzo{width:1280px;height:720px;position:absolute;left:50%;top:calc(50% - 17px);
+  transform-origin:center;background:#fff;box-shadow:var(--sombra);border-radius:6px;overflow:hidden}
+body.sin-barra #lienzo{top:50%}
+.slide{position:absolute;inset:0;padding:34px 46px 30px;display:none;flex-direction:column;background:#fff}
+.slide.viva{display:flex}
+.slide.entra{animation:entrar .42s cubic-bezier(.22,.61,.36,1)}
+.slide.entra-atras{animation:entrar-atras .42s cubic-bezier(.22,.61,.36,1)}
+@keyframes entrar{from{opacity:0;transform:translateX(26px) scale(.995)}to{opacity:1;transform:none}}
+@keyframes entrar-atras{from{opacity:0;transform:translateX(-26px) scale(.995)}to{opacity:1;transform:none}}
+
+/* ── encabezado ── */
+.kicker{font-size:12.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--coral)}
+.slide h1{font-family:var(--serif);font-size:38px;line-height:1.14;color:var(--osc);margin:6px 0 0;font-weight:700}
+.regla{height:4px;width:74px;border-radius:2px;margin:14px 0 0;background:var(--coral)}
+/* el color de la regla y del rótulo es el del bloque: 1 conceptos, 2 ejemplos, 3 taller */
+.slide[data-bloque="2"] .regla{background:var(--teal)}
+.slide[data-bloque="3"] .regla{background:var(--cafe)}
+.slide[data-bloque="2"] .kicker{color:var(--teal)}
+.slide[data-bloque="3"] .kicker{color:var(--cafe)}
+.cuerpo{flex:1;display:flex;flex-direction:column;gap:13px;justify-content:center;padding:14px 0 6px;min-height:0}
+.pie{font-size:11.5px;color:var(--gris);border-top:1px solid var(--linea);padding-top:8px;word-break:break-word}
+
+/* ── animación de entrada de cada elemento ── */
+[data-anim]{opacity:0;transform:translateY(14px)}
+.slide.viva [data-anim]{animation:surgir .5s cubic-bezier(.22,.61,.36,1) forwards;animation-delay:calc(var(--i,0) * 90ms + 120ms)}
+@keyframes surgir{to{opacity:1;transform:none}}
+
+/* ── el aparte: la caja de la derecha que acompaña a un bloque ── */
+.con-aparte{display:grid;grid-template-columns:1fr minmax(180px,var(--wap,300px));gap:16px;align-items:start}
+.aparte{background:var(--claro);border-radius:10px;padding:14px 16px}
+.aparte.crema{background:var(--crema)}
+.aparte.oscuro{background:var(--osc2);color:#CFDAE0}
+.aparte h3{font-family:var(--serif);font-size:16px;color:var(--osc);margin-bottom:8px}
+.aparte.oscuro h3{color:#fff}
+.aparte ul{list-style:none;font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:7px}
+.aparte.oscuro ul{color:#8FA5AF}
+.apartes{display:flex;flex-direction:column;gap:12px}
+
+/* ── agenda (mapa de la sesión) ── */
+.agenda{display:flex;flex-direction:column;gap:7px}
+.agenda .fila{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center}
+.agenda .n{width:34px;height:34px;border-radius:5px;display:grid;place-items:center;color:#fff;
+  font-family:var(--serif);font-weight:700;font-size:16px}
+.agenda .t{font-size:15.5px;color:var(--txt)}
+.agenda .m{font-size:13px;color:var(--gris);font-weight:700;white-space:nowrap}
+.c-coral{background:var(--coral)} .c-teal{background:var(--teal)} .c-teal2{background:var(--teal2)}
+.c-cafe{background:var(--cafe)} .c-verde{background:var(--verde)} .c-ambar{background:var(--ambar)}
+.c-rojo{background:var(--rojo)} .c-gris{background:var(--gris)}
+
+/* ── tarjetas ── */
+.tarjetas{display:grid;gap:16px;grid-auto-flow:column;grid-auto-columns:1fr}
+.tarjeta{border-radius:12px;overflow:hidden;background:var(--claro);display:flex;flex-direction:column;
+  box-shadow:0 2px 10px rgba(28,43,51,.06);transition:transform .25s,box-shadow .25s}
+.tarjeta:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(28,43,51,.13)}
+.tarjeta.crema{background:var(--crema)}
+.tarjeta > h2{font-family:var(--serif);font-size:19px;color:#fff;padding:11px 16px;font-weight:700;line-height:1.2}
+.tarjeta.filete > i{display:block;height:6px}
+.tarjeta.filete > h2,.tarjeta.plana > h2{color:var(--osc);background:transparent;padding:14px 16px 0}
+.tarjeta .contenido{padding:13px 16px;font-size:15px;line-height:1.45;display:flex;flex-direction:column;gap:7px}
+.tarjeta .rotulo{font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--gris)}
+.tenue{color:var(--gris);font-size:14px}
+.t-coral{color:var(--coral)} .t-teal{color:var(--teal)} .t-teal2{color:var(--teal2)} .t-cafe{color:var(--cafe)}
+
+/* ── pasos ── */
+.pasos{display:flex;flex-direction:column;gap:8px}
+.paso{display:grid;grid-template-columns:44px 1fr auto;align-items:center;border-radius:10px;overflow:hidden;
+  background:var(--claro);transition:transform .2s}
+.paso:hover{transform:translateX(3px)}
+.paso .n{background:var(--coral);color:#fff;font-family:var(--serif);font-size:20px;font-weight:700;
+  align-self:stretch;display:grid;place-items:center}
+.paso.cafe .n{background:var(--cafe)}
+.paso .txt{padding:8px 14px}
+.paso .txt b{display:block;color:var(--osc);font-size:15.5px}
+.paso .txt span{font-size:14.5px;line-height:1.4}
+.paso .m{padding-right:14px;font-size:13px;color:var(--gris);font-weight:700;white-space:nowrap}
+.pasos.enumeradas .paso{grid-template-columns:44px 1fr;background:transparent;border-radius:0}
+.pasos.enumeradas .paso .n{border-radius:6px;font-size:18px;align-self:center;height:36px}
+.pasos.enumeradas .paso .txt{padding:2px 0 2px 12px}
+
+/* ── filas (los marcos, el ciclo ADM) ── */
+.filas{display:flex;flex-direction:column;gap:9px}
+.fila-m{display:grid;grid-template-columns:var(--we,190px) 1fr;gap:14px;background:var(--claro);
+  border-left:7px solid var(--teal);border-radius:0 10px 10px 0;padding:11px 16px;align-items:center}
+.fila-m .et{font-family:var(--serif);font-size:18px;font-weight:700;line-height:1.2}
+.fila-m .sub{font-size:12px;color:var(--gris);margin-top:2px}
+.fila-m .tx{font-size:15px;line-height:1.4}
+.fila-p{display:grid;grid-template-columns:var(--we,190px) 1fr;gap:14px;background:var(--claro);
+  border-radius:8px;padding:9px 16px;align-items:center}
+.fila-p.viva{color:#fff}
+.fila-p.apagada{color:var(--gris)}
+.fila-p .et{font-weight:700;font-size:15px}
+.fila-p .tx{font-size:14.5px}
+
+/* ── tabla ── */
+table{width:100%;border-collapse:collapse;font-size:14.5px;background:#fff;border-radius:10px;overflow:hidden;
+  box-shadow:0 2px 10px rgba(28,43,51,.06)}
+thead th{background:var(--osc);color:#fff;text-align:left;padding:9px 14px;font-size:13px;font-weight:700}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--linea);vertical-align:top;line-height:1.38}
+tbody tr:nth-child(odd){background:var(--claro)}
+tbody tr:last-child td{border-bottom:none}
+tbody td:first-child{font-weight:700;color:var(--osc)}
+table.comparativa td:nth-child(2){color:#8A3A2A}
+table.comparativa td:nth-child(3){color:#1F5A3A}
+
+/* ── columnas (la ruta de la sesión) ── */
+.columnas{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:22px}
+.columna .barra{height:5px;border-radius:3px;margin-bottom:12px}
+.columna .k{font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.columna h2{font-family:var(--serif);font-size:27px;color:var(--osc);margin:4px 0 8px}
+.columna p{font-size:15.5px;line-height:1.4}
+
+/* ── pares (dos columnas enfrentadas) ── */
+.pares{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.pares .cab{border-radius:8px;padding:9px 16px;font-family:var(--serif);font-size:18px;font-weight:700;color:#fff}
+.pares .celda{border-radius:8px;padding:12px 16px;font-size:15px;line-height:1.42;background:var(--claro)}
+.pares .celda.crema{background:var(--crema)}
+.pares .celda .rot{font-weight:700;font-size:13.5px;margin-bottom:6px;display:block}
+.pares .celda p+p{margin-top:7px}
+
+/* ── rejilla ── */
+.rejilla-b{display:grid;gap:12px}
+.rejilla-b .celda{background:var(--claro);border-radius:8px;padding:10px 14px}
+.rejilla-b .celda.filete{border-left:6px solid var(--cafe);border-radius:0 8px 8px 0}
+.rejilla-b .celda b{display:block;font-size:13.5px;letter-spacing:.03em}
+.rejilla-b .celda span{font-size:13.5px;color:var(--txt)}
+
+/* ── banda, aviso, párrafo ── */
+.banda{background:var(--osc);color:#fff;border-radius:10px;padding:13px 20px;font-family:var(--serif);
+  font-size:18px;line-height:1.35}
+.aviso{background:var(--crema);border-radius:10px;padding:12px 18px;font-size:14.5px;line-height:1.4}
+.aviso.claro{background:var(--claro)}
+.aviso .rot{display:block;font-family:var(--serif);font-size:16px;font-weight:700;color:var(--osc);margin-bottom:5px}
+.parrafo{background:var(--claro);border-radius:10px;padding:14px 18px;font-size:15px;line-height:1.45}
+.parrafo p+p{margin-top:7px}
+
+/* ── cita y cajas ── */
+.cita-cajas{display:grid;grid-template-columns:7fr 5fr;gap:18px;align-items:stretch}
+.cita{background:var(--crema);border-radius:12px;padding:20px 24px;font-family:var(--serif);font-size:17.5px;
+  line-height:1.38}
+.cita .autor{font-family:var(--sans);font-size:12.5px;color:var(--gris);font-weight:700;margin-top:14px}
+.cajas{display:flex;flex-direction:column;gap:12px}
+.caja{background:var(--claro);border-left:6px solid var(--teal2);border-radius:0 10px 10px 0;padding:14px 18px}
+.caja h2{font-family:var(--serif);font-size:18px;margin-bottom:7px}
+.caja ul{list-style:none;font-size:14.5px;line-height:1.45;display:flex;flex-direction:column;gap:5px}
+.caja li::before{content:"· ";color:var(--gris)}
+.b-coral{border-left-color:var(--coral)} .b-teal{border-left-color:var(--teal)}
+.b-teal2{border-left-color:var(--teal2)} .b-cafe{border-left-color:var(--cafe)}
+.caja.b-teal2 h2{color:var(--teal2)} .caja.b-coral h2{color:var(--coral)}
+
+/* ── cuadrante del modelo operativo ── */
+.cuadrante{display:grid;grid-template-columns:5fr 6fr;gap:20px;align-items:start}
+.cuadrante .plano .ejes{background:var(--osc);color:#fff;border-radius:6px 6px 0 0;padding:7px;text-align:center;
+  font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.cuadrante .rejilla4{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--linea);
+  border:1px solid var(--linea);border-top:0}
+.cuadrante .q{background:#FBFCFC;padding:12px 14px;min-height:78px}
+.cuadrante .q b{display:block;font-family:var(--serif);font-size:19px;color:var(--osc)}
+.cuadrante .q span{font-size:12.5px;color:var(--gris)}
+
+/* ── mapa de capacidades con soporte ── */
+.heat{display:flex;flex-direction:column;gap:8px}
+.heat .cap{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:var(--claro);
+  border-left:7px solid var(--gris);border-radius:0 8px 8px 0;padding:9px 14px}
+.heat .cap .nom{font-size:15px;color:var(--osc)}
+.heat .cap.critica .nom{font-weight:700}
+.heat .chip{color:#fff;border-radius:5px;padding:3px 16px;font-size:12.5px;font-weight:700}
+.bl-verde{border-left-color:var(--verde)} .bl-ambar{border-left-color:var(--ambar)} .bl-rojo{border-left-color:var(--rojo)}
+
+/* ── escala de madurez ── */
+.escala .niveles{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:14px}
+.escala .nivel{border-radius:8px;padding:9px;text-align:center;color:#fff}
+.escala .nivel .n{font-size:11px;font-weight:800;letter-spacing:.08em}
+.escala .nivel .nm{font-family:var(--serif);font-size:15px;font-weight:700;margin-top:2px}
+.escala .dims{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.escala .dim{background:var(--claro);border-radius:8px;padding:11px 14px;font-size:15px;font-weight:700;color:var(--osc)}
+
+/* ── cadena evidencia → principio ── */
+.cadena{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;position:relative}
+.cadena .esl{border-radius:10px;padding:13px 14px;color:#fff;position:relative}
+.cadena .esl b{display:block;font-family:var(--serif);font-size:17px;margin-bottom:4px}
+.cadena .esl span{font-size:12.5px;line-height:1.3;display:block}
+.cadena .esl:not(:last-child)::after{content:"›";position:absolute;right:-15px;top:50%;transform:translateY(-50%);
+  color:var(--gris);font-size:22px;font-weight:700}
+
+/* ── compromisos con fecha ── */
+.crono-l{display:flex;flex-direction:column;gap:9px}
+.crono-l .fila{display:grid;grid-template-columns:170px 1fr;gap:8px}
+.crono-l .plazo{border-radius:8px 0 0 8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14.5px;padding:10px}
+.crono-l .qué{background:var(--claro);border-radius:0 8px 8px 0;padding:11px 16px;font-size:15px;display:flex;align-items:center}
+
+/* ── lista de errores ── */
+.lista{display:flex;flex-direction:column;gap:9px}
+.lista li{list-style:none;display:grid;grid-template-columns:16px 1fr;gap:14px;align-items:start;font-size:15px}
+.lista li::before{content:"";width:12px;height:12px;background:var(--coral);margin-top:5px;display:block}
+
+/* ── portada, divisores y cierre ── */
+.slide.oscura{background:var(--osc);color:#fff}
+.slide.oscura h1{color:#fff}
+.slide.oscura .pie{border-top-color:rgba(255,255,255,.14);color:#8FA5AF}
+.slide.portada{justify-content:center;padding:60px 70px}
+.slide.portada h1{font-size:58px;margin:10px 0 18px}
+.slide.portada .sub{font-family:var(--serif);font-size:26px;color:#CFDAE0}
+.slide.portada .lema{font-size:17px;color:#8FA5AF;margin-top:16px;max-width:60ch}
+.slide.portada .docente{margin-top:auto;font-size:15px;font-weight:700}
+.barras{position:absolute;right:70px;top:190px;display:flex;flex-direction:column;gap:14px}
+.barras i{display:block;width:250px;height:22px;border-radius:3px;background:var(--teal);
+  animation:crecer .7s cubic-bezier(.22,.61,.36,1) backwards}
+.barras i.on{background:var(--coral)}
+.barras i:nth-child(1){animation-delay:.15s} .barras i:nth-child(2){animation-delay:.28s}
+.barras i:nth-child(3){animation-delay:.41s} .barras i:nth-child(4){animation-delay:.54s}
+@keyframes crecer{from{transform:scaleX(0);opacity:0;transform-origin:left}to{transform:none;opacity:1}}
+.refs{font-size:14.5px;line-height:1.5;columns:2;column-gap:34px}
+.refs p{break-inside:avoid;margin-bottom:9px;padding-left:18px;text-indent:-18px}
+
+/* ── barra de estado ── */
+#estado{position:fixed;left:0;right:0;bottom:0;height:34px;display:flex;align-items:center;gap:16px;
+  padding:0 14px;background:rgba(14,24,29,.92);color:#C9D6EA;font-size:12.5px;backdrop-filter:blur(4px);
+  transition:transform .25s;z-index:5}
+#estado.oculta{transform:translateY(100%)}
+#estado button{background:transparent;border:1px solid rgba(201,214,234,.35);color:inherit;border-radius:6px;
+  padding:3px 9px;font-size:12px;cursor:pointer;font-family:inherit}
+#estado button:hover{background:rgba(201,214,234,.16)}
+#progreso{position:fixed;top:0;left:0;height:3px;background:var(--coral);z-index:6;transition:width .3s}
+.crece{margin-left:auto}
+
+/* ── índice ── */
+#indice{position:fixed;inset:0;background:rgba(14,24,29,.97);z-index:10;display:none;overflow:auto;padding:34px}
+#indice.abierto{display:block}
+#indice h2{color:#fff;font-family:var(--serif);font-size:24px;margin-bottom:18px}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:12px}
+.mini{background:#fff;border-radius:8px;padding:12px 14px;cursor:pointer;border:2px solid transparent;text-align:left}
+.mini:hover,.mini:focus-visible{border-color:var(--coral)}
+.mini .num{font-size:11px;font-weight:800;color:var(--gris)}
+.mini .t{font-family:var(--serif);font-size:15px;color:var(--osc);line-height:1.25;margin-top:3px}
+.mini[data-bloque="1"]{border-left:6px solid var(--coral)}
+.mini[data-bloque="2"]{border-left:6px solid var(--teal)}
+.mini[data-bloque="3"]{border-left:6px solid var(--cafe)}
+
+/* ── notas del docente ── */
+#notas{position:fixed;right:0;top:0;bottom:34px;width:390px;background:#13212A;color:#DCE6EA;padding:22px;
+  overflow:auto;transform:translateX(100%);transition:transform .3s;z-index:7;font-size:14.5px;line-height:1.5}
+#notas.abiertas{transform:none}
+#notas h3{font-family:var(--serif);font-size:17px;color:#fff;margin-bottom:10px}
+#notas p{margin-bottom:10px;white-space:pre-wrap}
+#notas .sig{margin-top:16px;padding-top:12px;border-top:1px solid rgba(220,230,234,.18);color:#93AAC9;font-size:13px}
+#notas .codigos{margin-top:16px;padding-top:12px;border-top:1px solid rgba(220,230,234,.18)}
+#notas .codigos h4{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#93AAC9;margin-bottom:8px}
+#notas .codigos div{margin-bottom:7px;font-size:13.5px;line-height:1.4}
+#notas .codigos b{color:#F0B48A;font-family:var(--serif)}
+
+/* ── glosario completo ── */
+#glosario{position:fixed;inset:0;background:rgba(14,24,29,.97);z-index:10;display:none;overflow:auto;padding:34px}
+#glosario.abierto{display:block}
+#glosario h2{color:#fff;font-family:var(--serif);font-size:24px;margin-bottom:6px}
+#glosario .aclara{color:#93AAC9;font-size:14px;max-width:80ch;margin-bottom:18px}
+.gfamilias{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.gfam{background:#fff;border-radius:10px;padding:14px 16px}
+.gfam h3{font-family:var(--serif);font-size:17px;color:var(--osc);margin-bottom:4px}
+.gfam .de{font-size:12.5px;color:var(--gris);margin-bottom:10px}
+.gfam dl{font-size:14px;line-height:1.4}
+.gfam dt{font-weight:700;color:var(--coral);font-family:var(--serif);margin-top:8px}
+.gfam dd{color:var(--txt)}
+
+/* ── cronómetro de las salas ── */
+#crono{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);z-index:9;display:none;
+  background:rgba(14,24,29,.96);color:#fff;border-radius:18px;padding:30px 44px;text-align:center;
+  box-shadow:0 24px 60px rgba(0,0,0,.4);animation:aparecer .25s forwards}
+#crono.visible{display:block}
+@keyframes aparecer{to{transform:translate(-50%,-50%) scale(1)}}
+#crono .tiempo{font-family:var(--serif);font-size:96px;font-variant-numeric:tabular-nums;line-height:1}
+#crono .tiempo.poco{color:#F0A28A}
+#crono .rot{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#8FA5AF;margin-bottom:8px}
+#crono .acc{margin-top:16px;display:flex;gap:10px;justify-content:center}
+#crono button{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;
+  padding:6px 14px;cursor:pointer;font-family:inherit}
+
+#ayuda{position:fixed;inset:0;background:rgba(14,24,29,.96);z-index:11;display:none;place-items:center;color:#fff}
+#ayuda.abierta{display:grid}
+#ayuda table{background:transparent;box-shadow:none;color:#fff;max-width:560px;font-size:15px;border-collapse:collapse}
+#ayuda td{border-bottom:1px solid rgba(255,255,255,.12);color:#DCE6EA;padding:7px 10px}
+#ayuda td:first-child{color:#fff;font-family:var(--serif);width:150px}
+#ayuda h2{font-family:var(--serif);font-size:26px;margin-bottom:16px;text-align:center}
+
+/* ── guion con acotaciones (panel N y modo presentador) ── */
+.seg-nota{margin-bottom:6px}
+.acot{font-style:italic;color:#8FA5AF}
+
+/* ── modo presentador: esta ventana lleva el guion, la vista previa y los controles;
+      la otra, la que se comparte, solo las diapositivas ── */
+#pview,#pinfo{display:none}
+body.presenter #estado,body.presenter #notas,body.presenter #progreso,body.presenter #crono{display:none !important}
+body.presenter{background:#0B1318}
+body.presenter #lienzo{border:1px solid #2E4550;border-radius:8px}
+body.presenter #pview{display:flex;flex-direction:column;position:fixed;top:16px;right:16px;bottom:16px;width:calc(44vw - 48px);
+  background:#13212A;border:1px solid #2E4550;border-radius:10px;color:#DCE6EA;z-index:8}
+#pview header{padding:14px 20px;border-bottom:1px solid #2E4550;font-size:13px;font-weight:800;letter-spacing:.1em;color:#F0B48A;
+  display:flex;justify-content:space-between;gap:10px}
+#pview header span{color:#93AAC9;font-weight:600;letter-spacing:0}
+#pnotas{flex:1;overflow:auto;padding:18px 22px;font:21px/1.5 var(--sans)}
+#pnotas p{margin:0 0 14px}
+#pcods{border-top:1px solid #2E4550;padding:12px 22px;font-size:14px;color:#C5D0E0;max-height:26%;overflow:auto}
+#pcods b{color:#F0B48A;font-family:var(--serif)}
+#pcods div{margin-bottom:6px}
+body.presenter #pinfo{display:grid;position:fixed;left:16px;top:calc(58vh + 16px);width:56vw;gap:12px;color:#C5D0E0;font-size:16px;z-index:8}
+#pinfo .fila{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#pinfo button{font:700 17px var(--sans);background:#1E2F38;color:#fff;border:1px solid #2E4550;border-radius:8px;padding:11px 20px;cursor:pointer}
+#pinfo button.grande{background:var(--coral);border-color:var(--coral)}
+#pinfo button.chico{font-size:13px;padding:6px 12px}
+#pinfo .reloj{font:700 34px var(--serif);color:#fff;font-variant-numeric:tabular-nums}
+#pinfo .pos{font:700 19px var(--sans);color:#fff}
+#pinfo .ritmo{font-size:14px;font-weight:700;padding:3px 10px;border-radius:12px;background:#1E2F38}
+#pinfo .ritmo.bien{color:#9FD5A8} #pinfo .ritmo.tarde{color:#F0A28A} #pinfo .ritmo.pronto{color:#F0D28A}
+#pinfo .sigue,#pinfo .sinc{color:#8FA5AF;font-size:14px}
+#phelp{position:fixed;right:16px;bottom:48px;width:min(480px,calc(100vw - 32px));background:#fff;color:var(--txt);border-radius:10px;
+  padding:16px 18px;z-index:12;box-shadow:0 8px 28px rgba(0,0,0,.35);font-size:15px;line-height:1.45}
+#phelp ol{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+#phelp button{margin-top:12px;font:600 13px var(--sans);background:var(--osc);color:#fff;border:0;border-radius:6px;padding:6px 12px;cursor:pointer}
+@media (max-width: 760px){ body.presenter #pview,body.presenter #pinfo{position:static;width:auto} }
+
+/* ══════════════ plataforma: que en el teléfono no se note que es una web ══════════════ */
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; overscroll-behavior: none; }
+button, [role="button"], .mini { touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+#escenario { touch-action: pan-y; }              /* el cambio de diapositiva se lleva el eje horizontal */
+#estado button, .mini { transition: transform 120ms cubic-bezier(.22,.61,.36,1), background 120ms; }
+#estado button:active, .mini:active { transform: scale(.97); }
+/* el dedo no tiene hover: sin esto, el estado se queda pegado tras tocar */
+@media (hover: none), (pointer: coarse) {
+  .tarjeta:hover { transform: none; box-shadow: 0 2px 10px rgba(28,43,51,.06); }
+  .paso:hover { transform: none; }
+  .mini:hover { border-color: transparent; }
+  #estado button:hover { background: transparent; }
+}
+
+/* ══════════════ móvil: una diapositiva por pantalla, en vertical ══════════════ */
+#b-lectura { display: none; }
+@media (max-width: 760px) {
+  html, body { height: auto; overflow: auto; background: #0E181D; }
+  #escenario { position: static; overflow: visible; }
+  #lienzo { position: static; width: 100%; height: auto; min-height: 100dvh; transform: none !important;
+            border-radius: 0; box-shadow: none; background: transparent; }
+  .slide { position: relative; min-height: calc(100dvh - 62px); background: #fff;
+           padding: calc(22px + env(safe-area-inset-top, 0px)) 18px 26px; }
+  .slide.oscura { background: var(--osc); }
+  .cuerpo { justify-content: flex-start; gap: 12px; }
+  .slide.viva { animation: entrar-movil .28s cubic-bezier(.22,.61,.36,1); }
+  @keyframes entrar-movil { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  /* el texto, a su tamaño real */
+  .slide h1 { font-size: 26px; }
+  .slide.portada h1 { font-size: 34px; }
+  .slide.portada .sub { font-size: 19px; }
+  .barras { display: none; }
+  .kicker { font-size: 11.5px; }
+  .tarjeta > h2, .caja h2 { font-size: 17px; }
+  .tarjeta .contenido, .paso .txt span, .fila-m .tx { font-size: 15px; }
+  .banda { font-size: 16px; padding: 12px 16px; }
+  .cita { font-size: 16.5px; padding: 18px; }
+  .pie { font-size: 12px; }
+
+  /* de varias columnas a una */
+  .tarjetas, .columnas { grid-auto-flow: row; grid-auto-columns: auto; }
+  .cita-cajas, .con-aparte, .cuadrante, .pares { grid-template-columns: 1fr; }
+  .refs { columns: 1; }
+  .escala .niveles, .escala .dims, .cadena, .rejilla-b { grid-template-columns: 1fr 1fr; }
+  .cuerpo > div { overflow-x: auto; overscroll-behavior-x: contain; }
+  table { font-size: 14px; min-width: 520px; }
+  .cadena .esl::after { display: none; }
+  .crono-l .fila { grid-template-columns: 110px 1fr; }
+  .fila-m, .fila-p { grid-template-columns: 1fr; gap: 4px; }
+  .gfamilias { grid-template-columns: 1fr; }
+
+  /* la barra: a la medida del pulgar y por encima del indicador de inicio */
+  #estado { position: fixed; height: auto; flex-wrap: wrap; gap: 8px 12px;
+            padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); }
+  #estado button { padding: 8px 13px; min-height: 40px; }
+  #titulo-actual { display: none; }
+  #cuenta { font-weight: 700; }
+  #b-lectura { display: inline-block; }
+  #notas, #indice, #glosario { width: 100%; top: 0; bottom: 0;
+            padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+  #crono { padding: 24px 28px; }
+  #crono .tiempo { font-size: 64px; }
+
+  /* ── modo lectura: las 21, una debajo de otra ── */
+  body.lectura .slide { display: flex !important; min-height: 0;
+                        border-radius: 12px; margin: 0 10px 14px; }
+  body.lectura .slide.viva { animation: none; }
+  body.lectura [data-anim] { opacity: 1 !important; transform: none !important; animation: none !important; }
+  body.lectura #lienzo { padding: 8px 0 96px; }
+  body.lectura #b-ant, body.lectura #b-sig, body.lectura #cuenta, body.lectura #progreso { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  [data-anim]{opacity:1;transform:none}
+}
+@media print{
+  body{background:#fff;overflow:visible}
+  #estado,#indice,#notas,#crono,#progreso,#ayuda,#glosario{display:none !important}
+  #escenario{position:static;display:block}
+  #lienzo{transform:none !important;box-shadow:none;border-radius:0}
+  .slide{display:flex !important;position:relative;page-break-after:always;width:1280px;height:720px}
+  [data-anim]{opacity:1 !important;transform:none !important;animation:none !important}
+  @page{size:1280px 720px;margin:0}
+}
+</style>
+</head>
+<body>
+
+<div id="progreso"></div>
+<div id="escenario"><div id="lienzo" aria-live="polite"></div></div>
+
+<div id="estado">
+  <button id="b-ant" aria-label="Diapositiva anterior">←</button>
+  <span id="cuenta" aria-live="off">1 / 21</span>
+  <button id="b-sig" aria-label="Diapositiva siguiente">→</button>
+  <span id="titulo-actual"></span>
+  <span class="crece"></span>
+  <button id="b-crono">Cronómetro (T)</button>
+  <button id="b-presentador">Modo presentador (P)</button>
+  <button id="b-notas">Notas (N)</button>
+  <button id="b-lectura" aria-pressed="false">Lectura</button>
+  <button id="b-indice">Índice (I)</button>
+  <button id="b-glosario">Códigos (G)</button>
+  <button id="b-ayuda" aria-label="Atajos de teclado">?</button>
+</div>
+
+<aside id="notas" aria-label="Notas del docente">
+  <h3 id="notas-tit"></h3>
+  <p id="notas-txt"></p>
+  <div class="sig" id="notas-sig"></div>
+  <div class="codigos" id="notas-cod"></div>
+</aside>
+
+
+
+<div id="glosario" role="dialog" aria-label="Glosario de códigos">
+  <h2>De dónde sale cada código</h2>
+  <p class="aclara">Los formatos F-nn son del curso: F-08 a F-14 son de la Unidad 2; la numeración continúa la de la Unidad 1. Los conceptos son de sus autores, no del curso. Los datos de los ejemplos son del repositorio público de Flask.</p>
+  <div class="gfamilias" id="gfamilias"></div>
+</div>
+
+<div id="indice" role="dialog" aria-label="Índice de diapositivas">
+  <h2>Índice de la sesión</h2>
+  <div class="rejilla" id="rejilla"></div>
+</div>
+
+<div id="crono" role="timer" aria-live="off">
+  <div class="rot">Taller en salas · ajústelo al tiempo que le quede</div>
+  <div class="tiempo" id="crono-t">30:00</div>
+  <div class="acc">
+    <button id="crono-menos" aria-label="Un minuto menos">−1</button>
+    <button id="crono-play">Iniciar</button>
+    <button id="crono-mas" aria-label="Un minuto más">+1</button>
+    <button id="crono-cerrar">Cerrar (T)</button>
+  </div>
+</div>
+
+<div id="ayuda" role="dialog" aria-label="Atajos de teclado">
+  <div>
+    <h2>Atajos</h2>
+    <table><tbody>
+      <tr><td>← → · espacio</td><td>Moverse entre diapositivas</td></tr>
+      <tr><td>Inicio · Fin</td><td>Primera y última</td></tr>
+      <tr><td>N</td><td>Notas del docente, en esta misma pantalla</td></tr>
+      <tr><td>P</td><td>Modo presentador: abra el archivo en otra ventana, pulse P allí y comparta solo la de las diapositivas</td></tr>
+      <tr><td>I</td><td>Índice</td></tr>
+      <tr><td>L</td><td>En el teléfono: leer las 21 diapositivas de corrido</td></tr>
+      <tr><td>G</td><td>Glosario: de dónde sale cada código</td></tr>
+      <tr><td>T</td><td>Cronómetro de las salas, ajustable</td></tr>
+      <tr><td>B</td><td>Barra inferior</td></tr>
+      <tr><td>F</td><td>Pantalla completa</td></tr>
+      <tr><td>?</td><td>Esta ayuda</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<script>
+const SLIDES = [
+ {
+  "tipo": "portada",
+  "bloque": 0,
+  "kicker": "Maestría · Espacio académico",
+  "titulo": "Gestión de Configuración y Mantenimiento de Software",
+  "subtitulo": "Sesión 2 — Unidad 2 · Gestión de configuración del software",
+  "lema": "El orden que permite que varios trabajen sobre lo mismo sin destruirlo.",
+  "pie": "Encuentro sincrónico · Ítems de configuración · Líneas base · Control de cambios · Trazabilidad · IEEE 828",
+  "codigos": [],
+  "notas": "El sistema es el mismo de la Unidad 1. El diagnóstico y los riesgos del F-06 son el punto de partida.",
+  "guion": []
+ },
+ {
+  "bloque": 0,
+  "kicker": "El reto de la Unidad 2 · Actividad en la plataforma",
+  "titulo": "Saber en todo momento qué hay, qué cambió y quién lo aprobó",
+  "bloques": [
+   {
+    "t": "cita_y_cajas",
+    "cita": [
+     "«Ya sabemos qué le pasa al sistema. Lo que no sabemos es qué versión está en producción, qué cambió desde la anterior ni quién lo aprobó.",
+     "",
+     "Necesitamos una estrategia de gestión de configuración que podamos aplicar desde la próxima entrega.»"
+    ],
+    "autor": "Responsable del sistema que eligió cada grupo",
+    "cajas": [
+     {
+      "titulo": "Actividad 2 · Diseño de estrategia de gestión de configuración",
+      "color": "coral",
+      "lineas": [
+       "20 % · 16 horas · grupal, de 2 a 3",
+       "Documento técnico de 8 a 10 páginas o README.md",
+       "Ítems de configuración · líneas base · control de cambios",
+       "Trazabilidad · roles y responsabilidades · modelo de gestión de configuración"
+      ]
+     },
+     {
+      "titulo": "Coherencia con la Unidad 1",
+      "color": "teal2",
+      "lineas": [
+       "Los riesgos de cambios no controlados del F-06 son lo que la estrategia tiene que resolver. La Unidad 3 la implementa en Git y en un pipeline."
+      ]
+     }
+    ]
+   },
+   {
+    "t": "banda",
+    "texto": "Una estrategia que no responde a los riesgos del diagnóstico es un procedimiento genérico. La rúbrica pide coherencia con la actividad anterior."
+   }
+  ],
+  "pie": "Los formatos de esta unidad son del F-08 al F-14: la numeración continúa la de la Unidad 1. No se suben a la plataforma.",
+  "codigos": [
+   [
+    "F-08",
+    "Formato del curso · Inventario de ítems de configuración"
+   ]
+  ],
+  "notas": "Recomendaciones de la actividad: usar IEEE 828, justificar con buenas prácticas y mantener coherencia con el diagnóstico.",
+  "guion": []
+ },
+ {
+  "bloque": 0,
+  "kicker": "Cómo vamos a usar la sesión",
+  "titulo": "Primero qué significa, después ejemplos, después ustedes",
+  "bloques": [
+   {
+    "t": "columnas",
+    "items": [
+     {
+      "kicker": "Primero",
+      "titulo": "Conceptos",
+      "color": "coral",
+      "texto": "Ítems de configuración, identificación, líneas base, control de cambios, trazabilidad y roles."
+     },
+     {
+      "kicker": "Después",
+      "titulo": "Ejemplos",
+      "color": "teal",
+      "texto": "Cómo gestiona Flask su configuración, leído en su propio repositorio: qué controla, cómo publica y qué se puede rastrear."
+     },
+     {
+      "kicker": "Y el resto de la sesión",
+      "titulo": "El hacer",
+      "color": "cafe",
+      "texto": "El taller en salas: el inventario de ítems de configuración del sistema propio y su primera línea base."
+     }
+    ]
+   },
+   {
+    "t": "banda",
+    "texto": "El bloque que no se recorta es el tercero. Los ejemplos están completos en el recorrido resuelto del repositorio."
+   }
+  ],
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · El problema",
+  "titulo": "Cuando coordinar se vuelve un problema de ingeniería",
+  "bloques": [
+   {
+    "t": "aviso",
+    "rotulo": "Un caso de banca",
+    "texto": "Un defecto llega a producción sin que nadie lo detecte, y los reportes de conciliación que un banco genera dejan de funcionar a nivel nacional. Unas horas sin reportes confiables afectan a otras entidades. El código no es lo que falla: falta control sobre qué versión llegó a producción y en qué condiciones se validó."
+   },
+   {
+    "t": "tarjetas",
+    "estilo": "filete",
+    "items": [
+     {
+      "titulo": "Sin gestión de configuración",
+      "color": "rojo",
+      "lineas": [
+       "Conflictos de integración inesperados.",
+       "Regresiones que nadie sabe explicar.",
+       "Nadie puede decir con certeza qué versión corre en producción."
+      ]
+     },
+     {
+      "titulo": "Con gestión de configuración",
+      "color": "verde",
+      "lineas": [
+       "Se comparten productos de trabajo con reglas claras.",
+       "Las decisiones técnicas quedan registradas.",
+       "Varias personas cambian la misma base sin romper la estabilidad."
+      ]
+     }
+    ]
+   }
+  ],
+  "pie": "Berczuk y Appleton (2002) describen la gestión de configuración como el «pegamento» que une artefactos, cambios y personas de un proyecto.",
+  "codigos": [],
+  "notas": "Preguntar: ¿en su sistema alguien puede responder hoy qué versión está en producción y qué cambió desde la anterior?",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · De qué se compone",
+  "titulo": "Las actividades de la gestión de configuración",
+  "bloques": [
+   {
+    "t": "filas",
+    "ancho_etiqueta": 3.2,
+    "items": [
+     {
+      "etiqueta": "Planificación",
+      "sub": "F-13",
+      "color": "teal2",
+      "texto": "Quién hace qué, con qué herramientas y con qué reglas. Es el plan de gestión de configuración."
+     },
+     {
+      "etiqueta": "Identificación",
+      "sub": "F-08 · F-09",
+      "color": "teal",
+      "texto": "Qué elementos se controlan, cómo se nombran y cómo se distinguen sus versiones."
+     },
+     {
+      "etiqueta": "Control de cambios",
+      "sub": "F-10 · F-11",
+      "color": "coral",
+      "texto": "Cómo se propone, evalúa, aprueba e incorpora un cambio sobre una línea base."
+     },
+     {
+      "etiqueta": "Registro del estado",
+      "sub": "F-12",
+      "color": "cafe",
+      "texto": "Qué versión de cada elemento está en cada línea base y qué cambios la produjeron."
+     },
+     {
+      "etiqueta": "Auditoría",
+      "sub": "F-14",
+      "color": "gris",
+      "texto": "Verificar que lo entregado coincide con lo aprobado y con lo registrado."
+     }
+    ]
+   }
+  ],
+  "pie": "Actividades de la gestión de configuración según IEEE 828-2012, Standard for Configuration Management in Systems and Software Engineering.",
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · Identificación",
+  "titulo": "Ítems de configuración: qué merece controlarse",
+  "bloques": [
+   {
+    "t": "rejilla",
+    "cols": 4,
+    "filete": true,
+    "items": [
+     {
+      "titulo": "Código fuente",
+      "color": "coral",
+      "texto": "El producto y sus pruebas."
+     },
+     {
+      "titulo": "Configuración",
+      "color": "coral",
+      "texto": "Archivos de configuración de la aplicación y de los entornos."
+     },
+     {
+      "titulo": "Construcción y dependencias",
+      "color": "cafe",
+      "texto": "Manifiestos, archivos de bloqueo, scripts de construcción."
+     },
+     {
+      "titulo": "Integración y despliegue",
+      "color": "cafe",
+      "texto": "Pipelines, scripts de despliegue, infraestructura como código."
+     },
+     {
+      "titulo": "Documentación técnica",
+      "color": "teal",
+      "texto": "Arquitectura, decisiones, manuales de operación."
+     },
+     {
+      "titulo": "Modelos y datos de referencia",
+      "color": "teal",
+      "texto": "Esquemas de base de datos, migraciones, catálogos."
+     },
+     {
+      "titulo": "Gobierno del proyecto",
+      "color": "teal2",
+      "texto": "Plantillas de cambio, registro de cambios, licencia."
+     },
+     {
+      "titulo": "Artefactos entregados",
+      "color": "teal2",
+      "texto": "Paquetes e imágenes construidos, con su identificador."
+     }
+    ]
+   },
+   {
+    "t": "banda",
+    "texto": "Un ítem de configuración es cualquier artefacto cuyo cambio puede afectar el comportamiento o la reproducibilidad del sistema. Un archivo de configuración puede tumbar producción sin que el código cambie."
+   }
+  ],
+  "pie": "Humble y Farley (2010): todo lo necesario para construir, desplegar y operar el sistema debe estar bajo control de versiones.",
+  "codigos": [
+   [
+    "F-08",
+    "Formato del curso · Inventario de ítems de configuración"
+   ]
+  ],
+  "notas": "Abrir el interactivo de ítems de configuración y resolver tres o cuatro casos en vivo.",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · Identificación",
+  "titulo": "Cómo se nombra y se distingue cada versión",
+  "bloques": [
+   {
+    "t": "tabla",
+    "filas": [
+     [
+      "Qué se define",
+      "Pregunta que responde",
+      "Cómo se ve en Git"
+     ],
+     [
+      "Identificador del ítem",
+      "¿Cómo se refiere el equipo a este elemento sin ambigüedad?",
+      "Ruta en el repositorio, nombre del módulo o del artefacto"
+     ],
+     [
+      "Esquema de versiones",
+      "¿Qué número lleva cada entrega y qué significa?",
+      "Etiquetas: 1.4.0, 1.4.1"
+     ],
+     [
+      "Ramas permanentes",
+      "¿Dónde se desarrolla y dónde se mantiene lo ya entregado?",
+      "main, una rama de mantenimiento"
+     ],
+     [
+      "Versión declarada",
+      "¿El artefacto dice qué versión es?",
+      "La versión del manifiesto coincide con la etiqueta"
+     ],
+     [
+      "Identificador del artefacto",
+      "¿Cómo se comprueba que el paquete entregado es el construido?",
+      "Hash del paquete o de la imagen"
+     ]
+    ]
+   }
+  ],
+  "pie": "El esquema de versiones se profundiza en la Unidad 3 con el versionamiento semántico. Aquí basta con que sea explícito y consistente.",
+  "codigos": [
+   [
+    "F-09",
+    "Formato del curso · Esquema de identificación y versionado"
+   ]
+  ],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · Líneas base",
+  "titulo": "Una línea base es un compromiso, no una fotografía",
+  "bloques": [
+   {
+    "t": "pares",
+    "izq": {
+     "titulo": "Qué es",
+     "color": "teal"
+    },
+    "der": {
+     "titulo": "Cómo se reconoce una buena línea base",
+     "color": "coral"
+    },
+    "filas": [
+     [
+      "Un conjunto de ítems de configuración en un estado acordado, revisado y aprobado, que sirve como punto de referencia estable.\nA partir de ella, todo cambio pasa por el control de cambios.",
+      "Tiene un nombre y una fecha.\nDice qué ítems incluye y en qué versión.\nAlguien la aprobó y se sabe quién.\nSe puede reconstruir: otra persona obtiene exactamente lo mismo."
+     ]
+    ]
+   },
+   {
+    "t": "banda",
+    "texto": "Sin líneas base el equipo no sabe qué versión está en producción ni a qué punto volver si algo sale mal."
+   }
+  ],
+  "codigos": [
+   [
+    "F-10",
+    "Formato del curso · Definición de líneas base"
+   ]
+  ],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · Control de cambios",
+  "titulo": "Gobernanza sin burocracia",
+  "bloques": [
+   {
+    "t": "pasos",
+    "estilo": "regla",
+    "items": [
+     {
+      "titulo": "Solicitud",
+      "texto": "Qué se quiere cambiar, por qué y qué ítems toca."
+     },
+     {
+      "titulo": "Análisis de impacto",
+      "texto": "Qué más se afecta: otros ítems, líneas base, usuarios, riesgos."
+     },
+     {
+      "titulo": "Decisión",
+      "texto": "Aprobado, rechazado o aplazado, por quien tiene la autoridad para ese tipo de cambio."
+     },
+     {
+      "titulo": "Implementación y verificación",
+      "texto": "El cambio se hace sobre la línea base y se prueba."
+     },
+     {
+      "titulo": "Registro y cierre",
+      "texto": "Queda el vínculo entre la solicitud, el cambio y la nueva versión."
+     }
+    ],
+    "aparte": {
+     "titulo": "Proporcional al riesgo",
+     "tono": "crema",
+     "color": "coral",
+     "lineas": [
+      "Un cambio de bajo riesgo puede aprobarse con la revisión de un par y las pruebas automáticas.",
+      "Un cambio que toca una línea base de producción necesita más.",
+      "La tensión real es entre control bien diseñado y burocracia mal diseñada."
+     ]
+    }
+   }
+  ],
+  "codigos": [
+   [
+    "F-11",
+    "Formato del curso · Proceso de control de cambios y solicitud de cambio"
+   ]
+  ],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · Trazabilidad",
+  "titulo": "Poder responder preguntas difíciles",
+  "bloques": [
+   {
+    "t": "cadena",
+    "items": [
+     {
+      "titulo": "Requisito o issue",
+      "texto": "Por qué se cambió"
+     },
+     {
+      "titulo": "Solicitud o PR",
+      "texto": "Qué se aprobó"
+     },
+     {
+      "titulo": "Commits",
+      "texto": "Qué se modificó"
+     },
+     {
+      "titulo": "Versión",
+      "texto": "Dónde quedó"
+     },
+     {
+      "titulo": "Prueba",
+      "texto": "Cómo se verificó"
+     }
+    ]
+   },
+   {
+    "t": "tabla",
+    "filas": [
+     [
+      "Pregunta",
+      "Qué la responde"
+     ],
+     [
+      "¿Qué cambió entre la versión 2.3 y la 2.4?",
+      "El historial entre las dos etiquetas y el registro de cambios"
+     ],
+     [
+      "¿Qué requisito motivó esta modificación?",
+      "La referencia del commit o del PR al issue"
+     ],
+     [
+      "¿Qué artefactos afectó este defecto?",
+      "Los ítems tocados por los cambios que lo corrigieron"
+     ]
+    ]
+   }
+  ],
+  "pie": "En entornos regulados la trazabilidad es obligatoria: PCI-DSS en pagos con tarjeta, HIPAA en salud, SOX en reportes financieros.",
+  "codigos": [
+   [
+    "F-12",
+    "Formato del curso · Matriz de trazabilidad"
+   ]
+  ],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · Quién hace qué",
+  "titulo": "Roles y el plan de gestión de configuración",
+  "bloques": [
+   {
+    "t": "tabla",
+    "filas": [
+     [
+      "Rol",
+      "Responsabilidad"
+     ],
+     [
+      "Responsable de configuración",
+      "Mantiene el inventario, las líneas base y el registro del estado"
+     ],
+     [
+      "Autoridad de cambios",
+      "Decide sobre las solicitudes según su riesgo; puede ser una persona o un comité"
+     ],
+     [
+      "Desarrolladores",
+      "Proponen e implementan cambios siguiendo el proceso"
+     ],
+     [
+      "Responsable de entregas",
+      "Construye, identifica y publica cada versión a partir de una línea base"
+     ]
+    ],
+    "aparte": {
+     "titulo": "En un equipo de 2 o 3",
+     "lineas": [
+      "Una persona puede tener varios roles.",
+      "Lo que no puede pasar es que un rol no tenga dueño.",
+      "El plan dice quién tiene cada uno."
+     ]
+    }
+   }
+  ],
+  "codigos": [
+   [
+    "F-13",
+    "Formato del curso · Roles y modelo de gestión de configuración"
+   ]
+  ],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 1,
+  "kicker": "Bloque 1 · La cadena que sostiene el documento",
+  "titulo": "Del inventario a la trazabilidad",
+  "bloques": [
+   {
+    "t": "cadena",
+    "items": [
+     {
+      "titulo": "Inventario",
+      "texto": "F-08 · qué se controla"
+     },
+     {
+      "titulo": "Identificación",
+      "texto": "F-09 · cómo se nombra y versiona"
+     },
+     {
+      "titulo": "Líneas base",
+      "texto": "F-10 · puntos de referencia"
+     },
+     {
+      "titulo": "Control de cambios",
+      "texto": "F-11 · cómo entra un cambio"
+     },
+     {
+      "titulo": "Trazabilidad",
+      "texto": "F-12 · cómo se rastrea"
+     }
+    ]
+   },
+   {
+    "t": "banda",
+    "texto": "El F-13 reúne todo en el modelo de gestión de configuración, con los roles. El F-14 verifica antes de entregar."
+   }
+  ],
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 2,
+  "kicker": "Bloque 2 · Ejemplo guiado 1 · F-08",
+  "titulo": "Qué controla Flask en su repositorio",
+  "bloques": [
+   {
+    "t": "tabla",
+    "filas": [
+     [
+      "Categoría",
+      "Archivos",
+      "Ítems clave"
+     ],
+     [
+      "Documentación",
+      "88",
+      "docs/ completo"
+     ],
+     [
+      "Pruebas",
+      "61",
+      "tests/"
+     ],
+     [
+      "Ejemplos",
+      "42",
+      "examples/"
+     ],
+     [
+      "Código fuente",
+      "24",
+      "src/flask/"
+     ],
+     [
+      "Gobierno del proyecto",
+      "7",
+      "CHANGES.rst, plantillas de issue y de PR, licencia"
+     ],
+     [
+      "Entorno y herramientas",
+      "6",
+      ".pre-commit-config.yaml, .devcontainer/, .readthedocs.yaml"
+     ],
+     [
+      "Integración continua",
+      "4",
+      ".github/workflows/: pruebas, publicación, pre-commit, bloqueo"
+     ],
+     [
+      "Construcción y dependencias",
+      "2",
+      "pyproject.toml y uv.lock"
+     ]
+    ],
+    "aparte": {
+     "titulo": "Lo que no está en el repositorio",
+     "tono": "crema",
+     "color": "coral",
+     "lineas": [
+      "Los paquetes publicados en PyPI.",
+      "Los issues, los PR y sus vínculos.",
+      "Quién puede fusionar y quién puede publicar.",
+      "También son configuración: el inventario tiene que nombrarlos."
+     ]
+    }
+   }
+  ],
+  "pie": "python herramientas/configuracion.py inventario flask --ref 3.1.3 · 235 archivos versionados en la etiqueta 3.1.3.",
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 2,
+  "kicker": "Bloque 2 · Ejemplo guiado 2 · F-09 y F-10",
+  "titulo": "Identificación y líneas base en Flask",
+  "bloques": [
+   {
+    "t": "filas",
+    "ancho_etiqueta": 2.6,
+    "items": [
+     {
+      "etiqueta": "Etiquetas",
+      "sub": "identificación",
+      "color": "teal",
+      "texto": "Cada versión es una etiqueta X.Y.Z sin prefijo: 3.1.0, 3.1.1, 3.1.2, 3.1.3."
+     },
+     {
+      "etiqueta": "Versión declarada",
+      "sub": "identificación",
+      "color": "teal",
+      "texto": "En la etiqueta 3.1.3, pyproject.toml declara **3.1.3**. En main declara **3.2.0.dev**: se ve que es desarrollo."
+     },
+     {
+      "etiqueta": "Ramas",
+      "sub": "identificación",
+      "color": "teal2",
+      "texto": "**main** para la siguiente versión, **stable** para las correcciones de la vigente. stable se integra a main con frecuencia."
+     },
+     {
+      "etiqueta": "Línea base de entrega",
+      "sub": "línea base",
+      "color": "coral",
+      "texto": "Al subir una etiqueta, el flujo de publicación construye el paquete, crea el borrador de la entrega en GitHub y publica en PyPI."
+     },
+     {
+      "etiqueta": "Construcción reproducible",
+      "sub": "línea base",
+      "color": "coral",
+      "texto": "Fija la fecha del paquete con la del último commit (SOURCE_DATE_EPOCH): construir dos veces la misma etiqueta da el mismo paquete."
+     }
+    ]
+   }
+  ],
+  "pie": "Evidencia: git tag, pyproject.toml en cada etiqueta y .github/workflows/publish.yaml.",
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 2,
+  "kicker": "Bloque 2 · Ejemplo guiado 3 · F-11",
+  "titulo": "Cómo entra un cambio en Flask",
+  "bloques": [
+   {
+    "t": "pasos",
+    "items": [
+     {
+      "titulo": "Issue primero",
+      "texto": "La plantilla de PR pide abrir antes un ticket, salvo erratas de documentación."
+     },
+     {
+      "titulo": "PR con lista de verificación",
+      "texto": "Pruebas que fallen sin el cambio, documentación, entrada en CHANGES.rst con el vínculo al issue."
+     },
+     {
+      "titulo": "Pruebas automáticas en cada PR",
+      "texto": "En la versión 3.1.3, 12 combinaciones de versión de Python, sistema operativo y versiones de dependencias, más verificación de tipos."
+     },
+     {
+      "titulo": "Integración",
+      "texto": "El cambio se fusiona en main, o en stable si es una corrección de la versión vigente."
+     },
+     {
+      "titulo": "Entrega",
+      "texto": "Una etiqueta dispara la publicación, que corre en un entorno de GitHub llamado publish."
+     }
+    ],
+    "aparte": {
+     "titulo": "Integridad del pipeline",
+     "tono": "crema",
+     "color": "coral",
+     "lineas": [
+      "Las 20 acciones externas de sus 4 flujos de CI están fijadas por hash de commit, no por etiqueta.",
+      "Las pruebas corren con las dependencias bloqueadas en uv.lock.",
+      "El pipeline también es un ítem de configuración."
+     ]
+    }
+   }
+  ],
+  "pie": "Evidencia: .github/pull_request_template.md, .github/workflows/tests.yaml y publish.yaml, uv.lock.",
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 2,
+  "kicker": "Bloque 2 · Ejemplo guiado 4 · F-12 · herramienta en vivo",
+  "titulo": "¿Se puede rastrear la versión 3.1.0?",
+  "bloques": [
+   {
+    "t": "tabla",
+    "filas": [
+     [
+      "Desde el registro de cambios de la 3.1.0",
+      "Resultado"
+     ],
+     [
+      "Entradas nuevas con referencia a PR o issue",
+      "10 de 10"
+     ],
+     [
+      "Entradas que se siguen hasta un commit solo con Git",
+      "2: las que citan los PR 5623, 5624 y 5633"
+     ],
+     [
+      "Entradas que se siguen buscando el contenido del cambio",
+      "8 más: se llega al commit, y en 7 también al PR; el vínculo entre issue y PR está solo en GitHub"
+     ],
+     [
+      "Merges con número de PR en el mensaje",
+      "51 de 70"
+     ],
+     [
+      "Commits individuales con referencia",
+      "3 de 93"
+     ]
+    ],
+    "aparte": {
+     "titulo": "La lección",
+     "tono": "crema",
+     "color": "coral",
+     "lineas": [
+      "La trazabilidad de Flask existe, pero buena parte vive en la plataforma.",
+      "Si el proyecto cambiara de plataforma, perdería esos vínculos.",
+      "Su estrategia debe decir dónde vive cada vínculo."
+     ]
+    }
+   }
+  ],
+  "pie": "python herramientas/configuracion.py traza flask --desde 3.0.3 --hasta 3.1.0 --registro CHANGES.rst",
+  "codigos": [],
+  "notas": "Abrir el interactivo de trazabilidad y recorrer dos entradas: una que se rastrea en Git y una que no.",
+  "guion": []
+ },
+ {
+  "bloque": 2,
+  "kicker": "Bloque 2 · Ejemplo guiado 5 · F-13",
+  "titulo": "Lo que el repositorio no dice",
+  "bloques": [
+   {
+    "t": "pares",
+    "izq": {
+     "titulo": "Visible en el repositorio",
+     "color": "teal"
+    },
+    "der": {
+     "titulo": "Solo en la configuración de las plataformas",
+     "color": "coral"
+    },
+    "filas": [
+     [
+      "Qué se exige a un cambio: la plantilla de PR.\nQué se prueba y con qué dependencias: los flujos de CI y uv.lock.\nCómo se construye una entrega: publish.yaml.",
+      "Quién puede fusionar en main y en stable.\nQuién aprueba una publicación en el entorno publish.\nQuién administra el paquete en PyPI."
+     ]
+    ]
+   },
+   {
+    "t": "banda",
+    "texto": "Para su sistema: escriban los roles en el repositorio, por ejemplo en el README o en un archivo CODEOWNERS. Un rol que solo existe en la configuración de una plataforma no se audita."
+   }
+  ],
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 3,
+  "kicker": "El hacer · Taller en salas",
+  "titulo": "De la sesión salen con el inventario y la primera línea base",
+  "bloques": [
+   {
+    "t": "pasos",
+    "color": "cafe",
+    "items": [
+     {
+      "titulo": "Correr el inventario",
+      "texto": "Sobre el repositorio del sistema, o listar a mano los artefactos si aún no está en Git.",
+      "min": 5
+     },
+     {
+      "titulo": "Decidir qué es ítem de configuración",
+      "texto": "Con el criterio: ¿su cambio afecta el comportamiento o la reproducibilidad?",
+      "min": 10
+     },
+     {
+      "titulo": "Nombrar lo que vive fuera del repositorio",
+      "texto": "Paquetes, secretos, configuración de plataformas, bases de datos.",
+      "min": 5
+     },
+     {
+      "titulo": "Definir la primera línea base",
+      "texto": "Nombre, ítems incluidos, quién la aprueba y cómo se marca.",
+      "min": 7
+     },
+     {
+      "titulo": "Conectar con el F-06",
+      "texto": "Qué riesgo de la Unidad 1 resuelve cada decisión.",
+      "min": 3
+     }
+    ]
+   }
+  ],
+  "pie": "Al salir de la sala: el F-08 en borrador y la primera fila del F-10.",
+  "codigos": [],
+  "notas": "Ajustar el cronómetro (T) al tiempo que quede.",
+  "guion": []
+ },
+ {
+  "bloque": 3,
+  "kicker": "Para tener al lado durante el taller",
+  "titulo": "Comandos y preguntas",
+  "bloques": [
+   {
+    "t": "pares",
+    "izq": {
+     "titulo": "Comandos",
+     "color": "teal2"
+    },
+    "der": {
+     "titulo": "Preguntas para cada artefacto",
+     "color": "cafe"
+    },
+    "filas": [
+     [
+      "**python herramientas/configuracion.py inventario** sistema\n**python herramientas/configuracion.py traza** sistema **--desde** v1 **--hasta** v2\n**git tag -a** v1.0.0 **-m** \"Línea base de entrega\"\n**git ls-files** para ver qué está versionado",
+      "¿Si cambia, cambia el comportamiento del sistema?\n¿Sin él, se puede reconstruir el sistema?\n¿Quién es su responsable?\n¿En qué línea base entra?"
+     ]
+    ]
+   }
+  ],
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "bloque": 3,
+  "kicker": "Cierre · qué sigue",
+  "titulo": "De diseñar el control a implementarlo",
+  "bloques": [
+   {
+    "t": "columnas",
+    "items": [
+     {
+      "kicker": "Esta semana",
+      "titulo": "Actividad 2",
+      "color": "coral",
+      "texto": "Completar el inventario, las líneas base, el proceso de control de cambios, la trazabilidad y los roles. Verificar con el F-14 antes de entregar."
+     },
+     {
+      "kicker": "Unidad 3",
+      "titulo": "Control de versiones y automatización",
+      "color": "teal",
+      "texto": "La estrategia se implementa: repositorio en Git, estrategia de ramas, versionamiento semántico y un pipeline de CI/CD funcionando."
+     }
+    ]
+   },
+   {
+    "t": "banda",
+    "texto": "Lo que se diseña en esta unidad es lo que se implementa en la siguiente. Una estrategia que no se pueda implementar en Git no sirve para la Unidad 3."
+   }
+  ],
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ },
+ {
+  "tipo": "referencias",
+  "bloque": 0,
+  "kicker": "Referencias",
+  "titulo": "Fuentes de la sesión",
+  "items": [
+   "Berczuk, S., & Appleton, B. (2002). Software configuration management patterns: Effective teamwork, practical integration. Addison-Wesley.",
+   "Humble, J., & Farley, D. (2010). Continuous delivery: Reliable software releases through build, test, and deployment automation. Addison-Wesley.",
+   "IEEE. (2012). IEEE Standard for configuration management in systems and software engineering (IEEE Std 828-2012). IEEE.",
+   "Kim, G., Humble, J., Debois, P., & Willis, J. (2016). The DevOps handbook. IT Revolution Press.",
+   "Chacon, S., & Straub, B. (2014). Pro Git (2.ª ed.). Apress. https://git-scm.com/book",
+   "Pallets. (2026). Flask [Repositorio de código fuente]. https://github.com/pallets/flask"
+  ],
+  "codigos": [],
+  "notas": "",
+  "guion": []
+ }
+];
+const GLOSARIO = [
+ [
+  "F-08",
+  "Formato del curso · Inventario de ítems de configuración",
+  "formato"
+ ],
+ [
+  "F-09",
+  "Formato del curso · Esquema de identificación y versionado",
+  "formato"
+ ],
+ [
+  "F-10",
+  "Formato del curso · Definición de líneas base",
+  "formato"
+ ],
+ [
+  "F-11",
+  "Formato del curso · Proceso de control de cambios y solicitud de cambio",
+  "formato"
+ ],
+ [
+  "F-12",
+  "Formato del curso · Matriz de trazabilidad",
+  "formato"
+ ],
+ [
+  "F-13",
+  "Formato del curso · Roles y modelo de gestión de configuración",
+  "formato"
+ ],
+ [
+  "F-14",
+  "Formato del curso · Verificación previa a la entrega",
+  "formato"
+ ],
+ [
+  "CI",
+  "Ítem de configuración (configuration item): artefacto cuyo cambio puede afectar el comportamiento o la reproducibilidad del sistema",
+  "concepto"
+ ],
+ [
+  "Línea base",
+  "Conjunto de ítems en un estado acordado, revisado y aprobado, que sirve como referencia estable",
+  "concepto"
+ ],
+ [
+  "Autoridad de cambios",
+  "Persona o comité que decide sobre las solicitudes de cambio; en inglés, CCB (change control board)",
+  "concepto"
+ ],
+ [
+  "PR",
+  "Pull request: solicitud para incorporar un conjunto de commits a una rama, con revisión",
+  "sigla"
+ ],
+ [
+  "IEEE 828",
+  "Estándar del IEEE para la gestión de configuración en ingeniería de sistemas y de software, edición de 2012",
+  "sigla"
+ ],
+ [
+  "SOURCE_DATE_EPOCH",
+  "Variable que fija la fecha de construcción de un paquete para que dos construcciones de la misma versión den el mismo resultado",
+  "sigla"
+ ],
+ [
+  "PyPI",
+  "Python Package Index: el repositorio público de paquetes de Python",
+  "sigla"
+ ]
+];
+const DOCENTE = "César Augusto Vega Fernández";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fuerte = s => esc(s).split("**").map((p, i) => i % 2 ? `<b>${p}</b>` : p).join("");
+// una cadena con saltos de línea se abre en varios párrafos, igual que en el deck
+const parrafos = s => String(s ?? "").split("\n").filter(t => t.trim()).map(t => `<p>${fuerte(t)}</p>`).join("");
+const linea = l => typeof l === "string" ? (l ? `<div>${fuerte(l)}</div>` : "")
+                                         : `<div class="tenue">${fuerte(l.texto)}</div>`;
+const lis = ls => ls.map(l => l ? `<li>${fuerte(typeof l === "string" ? l : l.texto)}</li>` : "<li>&nbsp;</li>").join("");
+
+// ---------------------------------------------------------------- render de los bloques
+const BLOQUES = {
+  agenda: b => `<div class="agenda">${b.items.map(it => `
+      <div class="fila"><div class="n c-${it.color}">${esc(it.n)}</div>
+      <div class="t">${esc(it.titulo)}</div><div class="m">${it.min} min</div></div>`).join("")}</div>`,
+
+  tarjetas: b => `<div class="tarjetas">${b.items.map(it => {
+      const estilo = b.estilo || "solida";
+      const cab = estilo === "solida" ? `<h2 class="c-${it.color}">${esc(it.titulo)}</h2>`
+        : estilo === "filete" ? `<i class="c-${it.color}"></i><h2 class="t-${it.color}">${esc(it.titulo)}</h2>`
+        : `<h2${it.color ? ` class="t-${it.color}"` : ""}>${esc(it.titulo)}</h2>`;
+      const rot = it.rotulo ? `<div class="rotulo">${esc(it.rotulo)}</div>` : "";
+      return `<article class="tarjeta ${estilo}${it.tono === "crema" ? " crema" : ""}">${cab}
+        <div class="contenido">${rot}${it.lineas.map(linea).join("")}</div></article>`;
+    }).join("")}</div>`,
+
+  pasos: b => `<div class="pasos${b.estilo === "regla" ? " enumeradas" : ""}">${b.items.map((it, i) => `
+      <div class="paso${b.color === "cafe" ? " cafe" : ""}"><div class="n">${i + 1}</div>
+      <div class="txt"><b>${esc(it.titulo)}</b>${it.texto ? `<span>${fuerte(it.texto)}</span>` : ""}</div>
+      ${it.min ? `<div class="m">${it.min} min</div>` : "<div></div>"}</div>`).join("")}</div>`,
+
+  filas: b => `<div class="filas" style="--we:${(b.ancho_etiqueta || 2.6) * 62}px">${b.items.map(it =>
+      it.sub !== undefined
+        ? `<div class="fila-m" style="border-left-color:var(--${it.color || "teal"})">
+             <div><div class="et" style="color:var(--${it.color || "teal"})">${esc(it.etiqueta)}</div>
+             <div class="sub">${esc(it.sub)}</div></div><div class="tx">${fuerte(it.texto)}</div></div>`
+        : `<div class="fila-p ${it.color ? "viva" : it.tenue ? "apagada" : ""}"
+                ${it.color ? `style="background:var(--${it.color})"` : ""}>
+             <div class="et">${esc(it.etiqueta)}</div><div class="tx">${fuerte(it.texto)}</div></div>`).join("")}</div>`,
+
+  tabla: b => `<table class="${b.comparativa ? "comparativa" : ""}">
+      <thead><tr>${b.filas[0].map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead>
+      <tbody>${b.filas.slice(1).map(f => `<tr>${f.map(c => `<td>${fuerte(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`,
+
+  columnas: b => `<div class="columnas">${b.items.map(it => `
+      <div class="columna"><div class="barra c-${it.color}"></div>
+      <div class="k" style="color:var(--${it.color})">${esc(it.kicker)}</div>
+      <h2>${esc(it.titulo)}</h2><p>${fuerte(it.texto)}</p></div>`).join("")}</div>`,
+
+  pares: b => {
+    const cab = l => l.color ? `<div class="cab c-${l.color}">${esc(l.titulo)}</div>` : "";
+    const celda = (l, t, k) => `<div class="celda ${(l.tono || (k ? "crema" : "claro")) === "crema" ? "crema" : ""}">
+        ${l.color ? "" : `<span class="rot"${l.color_titulo ? ` style="color:var(--${l.color_titulo})"` : ""}>${esc(l.titulo)}</span>`}
+        ${parrafos(t)}</div>`;
+    const cabs = b.izq.color ? `<div class="pares">${cab(b.izq)}${cab(b.der)}</div>` : "";
+    return cabs + b.filas.map(f => `<div class="pares">${celda(b.izq, f[0], 0)}${celda(b.der, f[1], 1)}</div>`).join("");
+  },
+
+  rejilla: b => `<div class="rejilla-b" style="grid-template-columns:repeat(${b.cols || 3},1fr)">${b.items.map(it => `
+      <div class="celda${b.filete ? " filete" : ""}"${b.filete && it.color ? ` style="border-left-color:var(--${it.color})"` : ""}>
+      <b${it.color ? ` style="color:var(--${it.color})"` : ""}>${esc(it.titulo)}</b>
+      <span>${fuerte(it.texto)}</span></div>`).join("")}</div>`,
+
+  banda: b => `<div class="banda">${fuerte(b.texto)}</div>`,
+
+  aviso: b => `<div class="aviso${b.tono === "claro" ? " claro" : ""}">
+      ${b.rotulo ? `<span class="rot"${b.color_rotulo ? ` style="color:var(--${b.color_rotulo})"` : ""}>${esc(b.rotulo)}</span>` : ""}
+      ${parrafos(b.texto)}</div>`,
+
+  parrafo: b => `<div class="parrafo">${parrafos(b.texto)}</div>`,
+
+  cita_y_cajas: b => `<div class="cita-cajas">
+      <div class="cita">${b.cita.map(l => l ? `<p>${fuerte(l)}</p>` : "<br>").join("")}
+        <div class="autor">${esc(b.autor)}</div></div>
+      <div class="cajas">${b.cajas.map(c => `<div class="caja b-${c.color}"><h2>${esc(c.titulo)}</h2>
+        <ul>${lis(c.lineas)}</ul></div>`).join("")}</div></div>`,
+
+  cuadrante: b => `<div class="cuadrante">
+      <div class="plano"><div class="ejes">${esc(b.ejes)}</div>
+        <div class="rejilla4">${[0, 1].map(f => [0, 1].map(c => {
+            const q = b.celdas.find(x => x.col === c && x.fila === f);
+            return `<div class="q"><b>${esc(q.nombre)}</b><span>${esc(q.ejes)}</span></div>`;
+          }).join("")).join("")}</div></div>
+      <div class="apartes">
+        <div class="aparte"><h3>${esc(b.evidencias.titulo)}</h3><ul>${lis(b.evidencias.lineas)}</ul></div>
+        <div class="aparte crema"><h3 style="color:var(--coral)">${esc(b.contra.titulo)}</h3>
+          <ul>${lis(b.contra.lineas)}</ul></div></div></div>`,
+
+  heatmap: b => `<div class="heat">${b.items.map(it => `
+      <div class="cap bl-${it.color}${it.critica ? " critica" : ""}">
+      <div class="nom">${it.critica ? "★ " : ""}${esc(it.capacidad)}</div>
+      <div class="chip c-${it.color}">${esc(it.soporte)}</div></div>`).join("")}</div>`,
+
+  escala: b => `<div class="escala">
+      <div class="niveles">${b.niveles.map(n => `<div class="nivel c-${n.color}">
+        <div class="n">${esc(n.n)}</div><div class="nm">${esc(n.nombre)}</div></div>`).join("")}</div>
+      <div class="dims">${b.dimensiones.map(d => `<div class="dim">${esc(d)}</div>`).join("")}</div></div>`,
+
+  cadena: b => `<div class="cadena">${b.items.map((it, i) => `
+      <div class="esl c-${["coral", "cafe", "teal", "teal2"][i] || "osc"}"
+           ${i >= 4 ? 'style="background:var(--osc)"' : ""}>
+      <b>${esc(it.titulo)}</b><span>${esc(it.texto)}</span></div>`).join("")}</div>`,
+
+  cronologia: b => `<div class="crono-l">${b.items.map(it => `
+      <div class="fila"><div class="plazo c-${it.color}">${esc(it.plazo)}</div>
+      <div class="qué">${fuerte(it.texto)}</div></div>`).join("")}</div>`,
+
+  lista: b => `<ul class="lista">${b.items.map(t => `<li><span>${fuerte(t)}</span></li>`).join("")}</ul>`
+};
+
+// Un bloque con aparte se envuelve en una rejilla de dos columnas, como en el deck.
+function bloque(b) {
+  const dentro = BLOQUES[b.t](b);
+  if (!b.aparte) return dentro;
+  const lado = a => `<div class="aparte ${a.tono === "crema" ? "crema" : a.tono === "oscuro" ? "oscuro" : ""}">
+      <h3${a.color ? ` style="color:var(--${a.color})"` : ""}>${esc(a.titulo)}</h3><ul>${lis(a.lineas)}</ul></div>`;
+  const lados = lado(b.aparte) + (b.aparte2 ? lado(b.aparte2) : "");
+  return `<div class="con-aparte" style="--wap:${(b.aparte.w || 3.93) * 72}px">${dentro}
+      <div class="apartes">${lados}</div></div>`;
+}
+
+function render(d) {
+  if (d.tipo === "portada") {
+    return `<section class="slide portada oscura" data-bloque="0">
+      <div class="barras" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="kicker" data-anim style="--i:0">${esc(d.kicker)}</div>
+      <h1 data-anim style="--i:1">${esc(d.titulo)}</h1>
+      <div class="sub" data-anim style="--i:2">${esc(d.subtitulo)}</div>
+      <div class="lema" data-anim style="--i:3">${esc(d.lema)}</div>
+      <div class="docente" data-anim style="--i:4">${esc(DOCENTE)}</div>
+      <div class="pie" data-anim style="--i:5">${esc(d.pie)}</div></section>`;
+  }
+  if (d.tipo === "referencias") {
+    return `<section class="slide" data-bloque="0">
+      <div class="kicker">${esc(d.kicker)}</div><h1>${esc(d.titulo)}</h1><div class="regla"></div>
+      <div class="cuerpo"><div class="refs" data-anim style="--i:0">
+        ${d.items.map(r => `<p>${esc(r)}</p>`).join("")}</div></div></section>`;
+  }
+  const cuerpo = d.bloques.map((b, k) =>
+    `<div data-anim style="--i:${k + 1}">${bloque(b)}</div>`).join("");
+  return `<section class="slide" data-bloque="${d.bloque}">
+    <div class="kicker" data-anim style="--i:0">${esc(d.kicker)}</div>
+    <h1 data-anim style="--i:0">${esc(d.titulo)}</h1>
+    <div class="regla" data-anim style="--i:0"></div>
+    <div class="cuerpo">${cuerpo}</div>
+    ${d.pie ? `<div class="pie" data-anim style="--i:${d.bloques.length + 1}">${esc(d.pie)}</div>` : ""}
+  </section>`;
+}
+
+$("lienzo").innerHTML = SLIDES.map(render).join("");
+const slides = [...document.querySelectorAll(".slide")];
+
+// ---------------------------------------------------------------- escala
+function escalar() {
+  const pres = document.body.classList.contains("presenter");
+  const barra = pres ? 0 : ($("estado").classList.contains("oculta") ? 12 : 46);
+  const ancho = pres ? innerWidth * 0.56 : innerWidth - 24;
+  const alto = pres ? innerHeight * 0.58 : innerHeight - barra;
+  const k = Math.min(ancho / 1280, alto / 720);
+  const l = $("lienzo");
+  l.style.transform = `translate(-50%, -50%) scale(${k})`;
+  l.style.left = pres ? "calc(16px + 28vw)" : "50%";
+  l.style.top = pres ? "calc(16px + 29vh)" : "";
+}
+addEventListener("resize", escalar);
+
+// ---------------------------------------------------------------- navegación
+let actual = 0;
+const HAY_NOTAS = SLIDES.some(d => (d.notas || "").trim());
+if (!HAY_NOTAS) { $("b-notas").hidden = true; $("notas").hidden = true; $("b-presentador").hidden = true; }
+
+function ir(n, atras) {
+  n = Math.max(0, Math.min(slides.length - 1, n));
+  slides[actual].classList.remove("viva", "entra", "entra-atras");
+  actual = n;
+  const s = slides[actual];
+  s.classList.add("viva");
+  void s.offsetWidth;                       // reinicia las animaciones de entrada
+  s.classList.add(atras ? "entra-atras" : "entra");
+  $("cuenta").textContent = `${n + 1} / ${slides.length}`;
+  $("progreso").style.width = ((n + 1) / slides.length * 100) + "%";
+  $("titulo-actual").textContent = SLIDES[n].titulo.replace(/\n/g, " ");
+  $("notas-tit").textContent = `${n + 1} · ${SLIDES[n].titulo.replace(/\n/g, " ")}`;
+  $("notas-txt").innerHTML = htmlGuion(n);
+  $("notas-sig").textContent = n + 1 < SLIDES.length
+    ? "Sigue: " + SLIDES[n + 1].titulo.replace(/\n/g, " ") : "Última diapositiva.";
+  const cod = SLIDES[n].codigos || [];
+  $("notas-cod").innerHTML = cod.length
+    ? `<h4>Qué significa cada código de esta diapositiva</h4>` +
+      cod.map(([c, t]) => `<div><b>${esc(c)}</b> · ${esc(t)}</div>`).join("")
+    : "";
+  location.hash = n + 1;
+  if (SLIDES[n].cronometro) abrirCrono(SLIDES[n].cronometro); else cerrarCrono();
+  pintarPresentador();
+  if (!remoto) emitir();
+  escalar();
+}
+const sig = () => ir(actual + 1);
+const ant = () => ir(actual - 1, true);
+
+addEventListener("keydown", e => {
+  if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); sig(); }
+  else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); ant(); }
+  else if (e.key === "Home") ir(0);
+  else if (e.key === "End") ir(slides.length - 1);
+  else if (e.key === "Escape") { $("indice").classList.remove("abierto"); $("ayuda").classList.remove("abierta"); $("glosario").classList.remove("abierto"); }
+  else {
+    const k = e.key.toLowerCase();
+    if (k === "n") alternarNotas();
+    else if (k === "i") $("indice").classList.toggle("abierto");
+    else if (k === "g") $("glosario").classList.toggle("abierto");
+    else if (k === "l") alternarLectura();
+    else if (k === "p") alternarPresentador();
+    else if (k === "t") { $("crono").classList.contains("visible") ? cerrarCrono() : abrirCrono(); }
+    else if (k === "b") { $("estado").classList.toggle("oculta"); document.body.classList.toggle("sin-barra"); escalar(); }
+    else if (k === "f") { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+    else if (k === "?" || e.key === "?") $("ayuda").classList.toggle("abierta");
+  }
+});
+$("escenario").addEventListener("click", e => {
+  if (tactil()) return;                       // en el teléfono se pasa deslizando o con los botones
+  (e.clientX > innerWidth * 0.35) ? sig() : ant();
+});
+let x0 = null;
+addEventListener("touchstart", e => x0 = e.touches[0].clientX, { passive: true });
+addEventListener("touchend", e => {
+  if (x0 === null || document.body.classList.contains("lectura")) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if (Math.abs(dx) > 50) dx < 0 ? sig() : ant();
+  x0 = null;
+});
+$("b-sig").onclick = e => { e.stopPropagation(); sig(); };
+$("b-ant").onclick = e => { e.stopPropagation(); ant(); };
+$("b-ayuda").onclick = () => $("ayuda").classList.toggle("abierta");
+$("ayuda").onclick = () => $("ayuda").classList.remove("abierta");
+
+// ---------------------------------------------------------------- índice
+$("rejilla").innerHTML = SLIDES.map((d, i) => `<button class="mini" data-ir="${i}" data-bloque="${d.bloque}">
+   <div class="num">${i + 1}</div>
+   <div class="t">${esc(d.titulo.replace(/\n/g, " "))}</div></button>`).join("");
+$("rejilla").addEventListener("click", e => {
+  const b = e.target.closest("[data-ir]");
+  if (b) { ir(+b.dataset.ir); $("indice").classList.remove("abierto"); }
+});
+$("b-indice").onclick = () => $("indice").classList.toggle("abierto");
+$("b-crono").onclick = () => $("crono").classList.contains("visible") ? cerrarCrono() : abrirCrono();
+
+// ---------------------------------------------------------------- modo lectura (teléfono)
+const tactil = () => matchMedia("(pointer: coarse)").matches;
+function alternarLectura() {
+  const lee = document.body.classList.toggle("lectura");
+  $("b-lectura").setAttribute("aria-pressed", lee);
+  $("b-lectura").textContent = lee ? "Diapositivas" : "Lectura";
+  try { localStorage.setItem("gcms-s2-lectura", lee ? "1" : ""); } catch (e) {}
+  if (lee) slides[actual].scrollIntoView({ block: "start" });
+  else { ir(actual); scrollTo(0, 0); }
+}
+$("b-lectura").onclick = alternarLectura;
+try { if (localStorage.getItem("gcms-s2-lectura")) alternarLectura(); } catch (e) {}
+
+// ---------------------------------------------------------------- glosario
+const FAMILIAS = [
+ [
+  "formato",
+  "Formatos del curso · F-nn",
+  "F-08 a F-14 son de la Unidad 2. La numeración continúa la de la Unidad 1."
+ ],
+ [
+  "concepto",
+  "Conceptos de gestión de configuración",
+  "Según IEEE 828-2012 y Berczuk y Appleton (2002)."
+ ],
+ [
+  "sigla",
+  "Siglas",
+  ""
+ ]
+];
+const minutoPlan = SLIDES.map(d => d.minuto ?? null);
+$("gfamilias").innerHTML = FAMILIAS.map(([f, tit, de]) => {
+  const items = GLOSARIO.filter(g => g[2] === f);
+  if (!items.length) return "";
+  return `<section class="gfam"><h3>${esc(tit)}</h3>${de ? `<div class="de">${esc(de)}</div>` : ""}
+    <dl>${items.map(g => `<dt>${esc(g[0])}</dt><dd>${esc(g[1])}</dd>`).join("")}</dl></section>`;
+}).join("");
+$("b-glosario").onclick = () => $("glosario").classList.toggle("abierto");
+
+// ---------------------------------------------------------------- notas
+function alternarNotas() {
+  const abierto = $("notas").classList.toggle("abiertas");
+  $("b-notas").setAttribute("aria-pressed", abierto);
+}
+$("b-notas").onclick = alternarNotas;
+
+// ---------------------------------------------------------------- guion del orador
+// El guion viene partido en párrafos; las acotaciones entre paréntesis van en cursiva y no se leen.
+const acot = t => esc(t).replace(/\(([^)]*)\)/g, '<span class="acot">($1)</span>');
+function htmlGuion(n) {
+  const segs = SLIDES[n].guion || [];
+  if (!segs.length) return esc(SLIDES[n].notas || "");
+  return segs.map(ps => `<div class="seg-nota">${ps.map(t => `<p>${acot(t)}</p>`).join("")}</div>`).join("");
+}
+
+// ---------------------------------------------------------------- modo presentador y sincronización
+// Se abre el mismo archivo en dos ventanas; en una se pulsa P. Cada avance se transmite a la otra por
+// BroadcastChannel y, de respaldo, por localStorage.
+const VENTANA = Math.random().toString(36).slice(2);
+const canal = ("BroadcastChannel" in window) ? new BroadcastChannel("gcms-s2-deck") : null;
+let remoto = false, ultimoPar = 0, t0 = Date.now();
+function emitir() {
+  const m = { n: actual, src: VENTANA, en: Date.now() };
+  try { canal && canal.postMessage(m); } catch (e) {}
+  try { localStorage.setItem("gcms-s2-deck", JSON.stringify(m)); } catch (e) {}
+}
+function recibir(m) {
+  if (!m || m.src === VENTANA) return;
+  ultimoPar = Date.now(); pintarSinc();
+  if (m.ping) { emitir(); return; }
+  if (m.n === actual) return;
+  remoto = true;
+  try { ir(m.n, m.n < actual); } finally { remoto = false; }
+}
+if (canal) canal.onmessage = e => recibir(e.data);
+addEventListener("storage", e => {
+  if (e.key === "gcms-s2-deck" && e.newValue) { try { recibir(JSON.parse(e.newValue)); } catch (err) {} }
+});
+function pintarSinc() {
+  if (!$("p-sinc")) return;                  // la versión publicada no trae el panel
+  $("p-sinc").textContent = Date.now() - ultimoPar < 15000 ? "Sincronizado con la ventana de las diapositivas."
+    : "Esperando la ventana de las diapositivas… Ábranla con el mismo archivo.";
+}
+const mmss = s => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+function pintarPresentador() {
+  if (!document.body.classList.contains("presenter") || !$("pnotas")) return;
+  $("pnotas").innerHTML = htmlGuion(actual);
+  $("pnotas").scrollTop = 0;
+  const cod = SLIDES[actual].codigos || [];
+  $("pcods").innerHTML = cod.length ? cod.map(([c, t]) => `<div><b>${esc(c)}</b> · ${esc(t)}</div>`).join("") : "";
+  $("p-pos").textContent = `Diapositiva ${actual + 1} / ${slides.length}`;
+  const plan = minutoPlan[actual];
+  $("p-min").textContent = plan === null || plan === undefined ? "" : `planeada en el minuto ${plan}`;
+  $("p-sigue").textContent = actual < slides.length - 1
+    ? "Sigue: " + SLIDES[actual + 1].titulo.replace(/\n/g, " ") : "Fin de la presentación";
+  pintarRitmo();
+}
+function pintarRitmo() {           // el reloj contra el minuto planeado de la diapositiva
+  const plan = minutoPlan[actual], r = $("p-ritmo");
+  if (!r) return;
+  if (plan === null || plan === undefined) { r.textContent = ""; r.className = "ritmo"; return; }
+  const d = Math.round((Date.now() - t0) / 60000 - plan);
+  r.className = "ritmo " + (Math.abs(d) <= 2 ? "bien" : d > 0 ? "tarde" : "pronto");
+  r.textContent = Math.abs(d) <= 2 ? "a tiempo" : d > 0 ? `${d} min atrasado` : `${-d} min adelantado`;
+}
+function alternarPresentador(on) {
+  if (!HAY_NOTAS) return;                    // la versión publicada no lo tiene
+  on = on ?? !document.body.classList.contains("presenter");
+  document.body.classList.toggle("presenter", on);
+  $("notas").classList.remove("abiertas"); if ($("phelp")) $("phelp").hidden = true;
+  if (on) cerrarCrono();
+  escalar(); pintarPresentador(); emitir();
+}
+setInterval(() => {
+  if ($("p-reloj")) $("p-reloj").textContent = mmss(Math.floor((Date.now() - t0) / 1000));
+  pintarSinc(); if (document.body.classList.contains("presenter")) pintarRitmo();
+}, 1000);
+if ($("phelp")) {                           // solo en la versión del docente
+  $("b-presentador").onclick = () => { $("phelp").hidden = !$("phelp").hidden; };
+  $("phelp-ok").onclick = () => { $("phelp").hidden = true; };
+  $("phelp-ya").onclick = () => alternarPresentador(true);
+  $("p-sig").onclick = () => sig();
+  $("p-ant").onclick = () => ant();
+  $("p-salir").onclick = () => alternarPresentador(false);
+  $("p-reiniciar").onclick = () => { t0 = Date.now(); pintarRitmo(); };
+}
+
+// ---------------------------------------------------------------- cronómetro de las salas
+// El Taller 1 son 8 minutos y el Taller 2 son 10: el cronómetro arranca en 10 y se ajusta de a un minuto.
+let minutosTaller = 30;
+try { minutosTaller = +localStorage.getItem("gcms-s2-taller") || 30; } catch (e) {}
+let restan = minutosTaller * 60, cTic = null;
+function pintarCrono() {
+  $("crono-t").textContent = mmss(restan);
+  $("crono-t").classList.toggle("poco", restan <= 60);
+}
+function abrirCrono(min) {
+  if (!$("crono").classList.contains("visible") && !cTic) {
+    if (typeof min === "number") minutosTaller = min;        // los minutos que declara el taller
+    restan = minutosTaller * 60; pintarCrono();
+  }
+  $("crono").classList.add("visible");
+}
+function ajustarCrono(delta) {
+  if (cTic) { restan = Math.max(30, restan + delta * 60); }
+  else { minutosTaller = Math.min(60, Math.max(1, minutosTaller + delta)); restan = minutosTaller * 60;
+         try { localStorage.setItem("gcms-s2-taller", minutosTaller); } catch (e) {} }
+  pintarCrono();
+}
+$("crono-menos").onclick = () => ajustarCrono(-1);
+$("crono-mas").onclick = () => ajustarCrono(1);
+function cerrarCrono() { $("crono").classList.remove("visible"); clearInterval(cTic); cTic = null; $("crono-play").textContent = "Iniciar"; }
+$("crono-play").onclick = () => {
+  if (cTic) { clearInterval(cTic); cTic = null; $("crono-play").textContent = "Reanudar"; return; }
+  cTic = setInterval(() => { if (restan > 0) { restan--; pintarCrono(); } }, 1000);
+  $("crono-play").textContent = "Pausar";
+};
+$("crono-cerrar").onclick = cerrarCrono;
+
+// ---------------------------------------------------------------- arranque
+const inicial = parseInt(location.hash.replace("#", ""), 10);
+remoto = true;            // al abrir, esta ventana no arrastra a la que ya esté proyectando
+if (location.hash.slice(1) === "presentador" && HAY_NOTAS) document.body.classList.add("presenter");
+ir(Number.isFinite(inicial) && inicial > 0 ? inicial - 1 : 0);
+remoto = false;
+try { canal && canal.postMessage({ ping: true, src: VENTANA }); } catch (e) {}
+escalar();
+</script>
+</body>
+</html>

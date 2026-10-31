@@ -1,0 +1,164 @@
+commit,fecha,tipo,asunto,referencias
+ab81496641,2024-11-13,cambio,release version 3.1.0,
+70602a196a,2024-11-13,cambio,remove test pypi,
+6748a09341,2024-11-13,cambio,update dev dependencies,
+22c48a738b,2024-11-13,integración,Merge remote-tracking branch 'origin/stable',
+2eab96a32a,2024-11-13,integración,use generic bases for session (#5638),5638
+f49dbfd3e4,2024-11-13,cambio,use generic bases for session,
+7b21d43d4c,2024-11-12,integración,configure and check `request.trusted_hosts` (#5637),5637
+4f7156f2c3,2024-11-12,cambio,configure and check trusted_hosts,
+10bdf61a0f,2024-11-12,integración,setting `SERVER_NAME` does not restrict routing for both `subdomain_matching` and `host_matching` (#5634),5634
+4995a775df,2024-11-12,cambio,fix subdomain_matching=False behavior,
+07c7d5730a,2024-11-08,integración,update min blinker version (#5633),5633
+470e2b8d17,2024-11-08,cambio,update min blinker version,
+a20bcff8dc,2024-11-08,integración,enable secret key rotation (#5632),5632
+e13373f838,2024-11-08,cambio,enable secret key rotation,
+7522c4bcdb,2024-11-07,integración,update env file precedence (#5630),5630
+2c31603042,2024-11-07,cambio,update env file precedence,
+6c44dd4bb8,2024-11-06,cambio,update helpers.send_from_directory docstring (#5599),5599
+98ae718976,2024-11-01,cambio,fix mypy finding,
+c62b03bcfd,2024-11-01,integración,fix example and tutorial compatibility and update metadata (#5627),5627
+a9b99b3489,2024-11-01,cambio,update example project metadata,
+8aa161a437,2024-11-01,cambio,add sqlite datetime converter,
+df201ed152,2024-11-01,cambio,fix js example test,
+ce08bc704e,2024-11-01,integración,add SESSION_COOKIE_PARTITIONED config (#5499),5499
+9efc1ebeeb,2024-11-01,cambio,add SESSION_COOKIE_PARTITIONED config,
+6f2014d353,2024-11-01,integración,add config and docs for limits (#5626),5626
+c7a53888a1,2024-11-01,cambio,add config and docs for limits,
+62c56e08c4,2024-10-31,integración,update minimum dependencies (#5624),5624
+8f37c82f61,2024-10-31,cambio,update min dependencies,
+39e7208366,2024-10-31,cambio,update dev dependencies,
+227838c472,2024-10-31,cambio,no need for separate requirements-skip folder anymore,
+99ce7ed0e4,2024-10-31,integración,drop support for Python 3.8 (#5623),5623
+1d610e44b3,2024-10-31,cambio,drop support for Python 3.8,
+e8b91cd38a,2024-10-24,integración,fix pyright type errors (#5620),5620
+9e831e915f,2024-10-24,cambio,fix pyright type errors,
+5e8cb74018,2024-10-24,cambio,update test workflow trigger,
+2778b7c23f,2024-10-24,integración,Merge branch 'stable',
+96800fb673,2024-10-24,cambio,update test workflow trigger,
+8f2bc008ad,2024-10-24,cambio,update dev dependencies,
+9b5549313e,2024-10-23,integración,Merge branch '3.0.x',
+68150d4caf,2024-10-22,integración,Fix the issue link in the Flask 3.0.1 Changelog in the send_file argu… (#5618),5618
+74721b48f0,2024-10-22,cambio,Fix the issue link in the Flask 3.0.1 Changelog in the send_file argument type entry,
+d273f87a41,2024-10-18,integración,use python 3.9 to test dev versions (#5615),5615
+52ccd66735,2024-10-18,cambio,use python 3.9 to test dev versions,
+dffe303482,2024-10-18,cambio,fix mypy findings,
+52c060f718,2024-10-18,integración,Fix typo in the changelog (#5609),5609
+c5a5576522,2024-10-18,cambio,update CHANGES.rst,
+bca18041b0,2024-10-18,integración,Merge branch '3.0.x',
+b337d21058,2024-10-18,cambio,update dev dependencies,
+e63ead4208,2024-09-24,cambio,Fix typo in the changelog,
+2fec0b206c,2024-09-01,cambio,set up pre-commit lite workflow,
+111e5bd312,2024-09-01,cambio,set up pre-commit lite workflow,
+db49548d71,2024-09-01,cambio,set up pre-commit lite workflow,
+f93dd6e826,2024-08-23,cambio,remove pre-commit.ci update,
+7e53070307,2024-08-23,integración,Merge branch '3.0.x',
+c77b099cbb,2024-08-23,cambio,remove min python for pip-compile,
+eeb5f95a0f,2024-08-23,integración,Merge branch '3.0.x',
+40b78fa2ea,2024-08-23,cambio,fix min python for pip-compile,
+4e6384da32,2024-08-23,integración,Merge branch '3.0.x',
+2c5d652493,2024-08-23,cambio,remove unused config,
+176fdfa000,2024-08-23,cambio,fix mypy findings,
+2d31dce826,2024-08-23,cambio,remove dependabot,
+29a94bd102,2024-08-23,cambio,update dev dependencies,
+0f2ae2b933,2024-08-23,cambio,add gha-update,
+8a6cdf1e2a,2024-08-06,integración,[pre-commit.ci] pre-commit autoupdate (#5541),5541
+326ad3f43c,2024-08-05,cambio,[pre-commit.ci] pre-commit autoupdate,
+a791997041,2024-08-03,integración,Bump the github-actions group with 3 updates (#5539),5539
+4fe0aebab7,2024-08-01,cambio,Bump the github-actions group with 3 updates,
+a8956feba1,2024-07-10,integración,Add encoding parameter to open resource (#5526),5526
+28d5a4d718,2024-07-10,cambio,add encoding parameter to open_resource,
+5353f306fe,2024-07-10,integración,Update waitress.rst (#5522),5522
+321bd74b95,2024-07-10,cambio,Update waitress.rst,
+66af0e55ef,2024-07-02,integración,[pre-commit.ci] pre-commit autoupdate (#5517),5517
+3d357273b5,2024-07-02,cambio,[pre-commit.ci] pre-commit autoupdate,
+926ab92118,2024-07-01,integración,Bump the python-requirements group in /requirements with 5 updates (#5514),5514
+088b58dbce,2024-07-01,integración,Bump the github-actions group with 2 updates (#5516),5516
+7621b3d96a,2024-07-01,cambio,Bump the github-actions group with 2 updates,
+e165f3aef4,2024-07-01,cambio,Bump the python-requirements group in /requirements with 5 updates,
+d718ecf6d3,2024-06-07,cambio,Provide a configuration option to control automatic option responses,
+0ce27278d2,2024-06-03,integración,[pre-commit.ci] pre-commit autoupdate (#5495),5495
+07c8f19bfd,2024-06-03,cambio,[pre-commit.ci] pre-commit autoupdate,
+0d2100ed17,2024-06-01,integración,Bump actions/checkout from 4.1.4 to 4.1.6 in the github-actions group (#5493),5493
+e3535f9971,2024-06-01,cambio,Bump actions/checkout from 4.1.4 to 4.1.6 in the github-actions group,
+422e05e28d,2024-06-01,integración,Bump the python-requirements group in /requirements with 3 updates (#5492),5492
+f567ab9068,2024-06-01,cambio,Bump the python-requirements group in /requirements with 3 updates,
+6d126e1013,2024-05-25,integración,Added python type annotation and return type. (#5485),5485
+c7da8c2aa3,2024-05-25,cambio,Added python type annotation and return type.,
+bb16048ad7,2024-05-25,integración,Edited variable names in quickstart guide (#5487),5487
+767ad19b10,2024-05-25,cambio,Edited variable names in the rendering templates section of the quickstart guide.,
+a2f495b9ff,2024-05-25,integración,`SESSION_COOKIE_DOMAIN` caveat documentation (#5464),5464
+4a1766c252,2024-05-25,cambio,document caveats on SESSION_COOKIE_DOMAIN,
+255c8d66af,2024-05-11,integración,Merge branch '3.0.x',
+bea5876e46,2024-05-11,integración,test with python 3.13 (#5481),5481
+9101439d7b,2024-05-11,cambio,test with python 3.13,
+67ed36910d,2024-05-06,integración,[pre-commit.ci] pre-commit autoupdate (#5477),5477
+4e894892bc,2024-05-06,cambio,[pre-commit.ci] pre-commit autoupdate,
+d64ecfb244,2024-05-06,integración,Bump the python-requirements group across 1 directory with 6 updates (#5476),5476
+860a25c390,2024-05-06,cambio,fix mypy finding,
+273123f6b8,2024-05-06,cambio,Bump the python-requirements group across 1 directory with 6 updates,
+fc605b575b,2024-05-06,integración,Bump the github-actions group with 2 updates (#5473),5473
+a936b0c610,2024-05-06,cambio,Bump the github-actions group with 2 updates,
+4f42c64203,2024-05-06,integración,Merge branch '3.0.x',
+eb1182a10e,2024-05-06,cambio,fix mypy finding,
+a363642a32,2024-05-06,cambio,fix mypy finding with new werkzeug endpoint type,
+57add386c9,2024-05-02,integración,examples/javascript: Update Documentation URL in pyproject.toml (#5475),5475
+823e279e0d,2024-05-02,cambio,Update pyproject.toml,
+11c15ddfeb,2024-04-23,integración,Bump the python-requirements group in /requirements with 3 updates (#5468),5468
+224c639bf9,2024-04-23,cambio,Bump the python-requirements group in /requirements with 3 updates,
+f48802acbb,2024-04-23,integración,Bump the github-actions group across 1 directory with 4 updates (#5470),5470
+b7278186c4,2024-04-23,cambio,Bump the github-actions group across 1 directory with 4 updates,
+ccf125bf30,2024-04-23,cambio,fix mypy findings,
+db0fe9436e,2024-04-23,cambio,unignore upload/download-artifact,
+2c7f57ad5b,2024-04-08,integración,Merge branch '3.0.x',
+f958b6500b,2024-04-08,cambio,build docs from scratch each test,
+346d1abaff,2024-04-08,cambio,remove install and contribute sections,
+19610a9e46,2024-04-07,cambio,start version 3.1.0,
+aee16df63b,2024-04-07,integración,Merge branch '3.0.x',
+61182249cb,2024-04-07,integración,release version 3.0.3 (#5461),5461
+a855756017,2024-04-07,integración,Bump the github-actions group with 3 updates (#5459),5459
+be508c6184,2024-04-07,cambio,Bump the github-actions group with 3 updates,
+6ab71ed7cf,2024-04-07,integración,Merge branch '3.0.x',
+98a7f9fcf0,2024-04-06,integración,Use per-release URLs in GH env UI when publishing to the PyPI (#5423),5423
+0e59442f6c,2024-02-27,cambio,Use per-release URLs in GH env UI when publishing to the PyPI,
+b90a4f1f4a,2024-02-12,integración,[pre-commit.ci] pre-commit autoupdate (#5404),5404
+ad36383951,2024-02-05,cambio,[pre-commit.ci] pre-commit autoupdate,
+6b422a05f3,2024-02-03,integración,Merge branch '3.0.x',
+94e80b3da9,2024-02-03,integración,Bump the python-requirements group in /requirements with 6 updates (#5401),5401
+f32dddc71c,2024-02-03,integración,Bump the github-actions group with 2 updates (#5400),5400
+484a7cc9a7,2024-02-01,cambio,Bump the python-requirements group in /requirements with 6 updates,
+a4bada52d0,2024-02-01,cambio,Bump the github-actions group with 2 updates,
+4df377cfbf,2024-01-18,integración,Merge branch '3.0.x',
+7b5e176d1a,2024-01-15,integración,[pre-commit.ci] pre-commit autoupdate (#5377),5377
+8fdab74cc8,2024-01-01,cambio,[pre-commit.ci] auto fixes from pre-commit.com hooks,
+24ec38d6a0,2024-01-01,cambio,[pre-commit.ci] pre-commit autoupdate,
+c2f65dd1cf,2024-01-01,integración,Bump the python-requirements group in /requirements with 3 updates (#5374),5374
+63ff4185f9,2024-01-01,cambio,Bump the python-requirements group in /requirements with 3 updates,
+708d62d717,2023-12-13,integración,Merge branch '3.0.x',
+12a1c4940d,2023-12-13,integración,Merge branch '3.0.x',
+399aa8531c,2023-12-13,integración,Bump the python-requirements group in /requirements with 3 updates (#5351),5351
+b55ccae72a,2023-12-13,cambio,Bump the python-requirements group in /requirements with 3 updates,
+089f6a1c50,2023-12-04,integración,Bump the github-actions group with 2 updates (#5352),5352
+b64f848d2c,2023-12-04,integración,[pre-commit.ci] pre-commit autoupdate (#5354),5354
+452b78f243,2023-12-04,cambio,[pre-commit.ci] pre-commit autoupdate,
+78ced0093a,2023-12-01,cambio,Bump the github-actions group with 2 updates,
+d61198941a,2023-11-15,integración,Merge branch '3.0.x',
+258311d098,2023-11-15,integración,Merge branch '3.0.x',
+ce27ddeba1,2023-11-15,integración,Merge branch '3.0.x',
+9a12f34bbe,2023-11-09,integración,use ruff linter and formatter (#5331),5331
+54ff9b2972,2023-11-09,cambio,use ruff linter and formatter,
+6edfd78c9f,2023-11-09,integración,Bump the github-actions group with 4 updates (#5330),5330
+4431ada1a2,2023-11-09,cambio,Bump the github-actions group with 4 updates,
+24653528cc,2023-11-09,integración,use pip-compile and dependabot grouped updates (#5329),5329
+33d8886226,2023-11-09,cambio,enable grouped updates for actions and python,
+04920b3076,2023-11-09,cambio,use pip-compile instead of pip-compile-multi,
+6ee5dcc0ec,2023-11-09,cambio,update python version matrix,
+c4bfd367e2,2023-11-09,cambio,update description,
+29f1bd22d7,2023-11-09,cambio,update read the docs env,
+8d9519df09,2023-10-28,integración,Update link to hypercorn (#5313),5313
+7af0271f47,2023-10-28,cambio,Initial commit,
+be6ec06894,2023-10-28,cambio,Fix link to Hypercorn in docs/deploying/asgi.rst - they moved from gitlab from github.,
+beedaa4eff,2023-10-20,integración,docs/testing.rst: fix follow_redirects sample code (#5303),5303
+bb9937593d,2023-10-20,cambio,docs/testing.rst: fix follow_redirects sample code,
+541bc8dfc2,2023-10-06,cambio,examples/javascript: replace obsolete link (#5287),5287
+3652ecd9e0,2023-10-06,cambio,Update index.rst (#5291),5291

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>GCMS S2 · Recorrido resuelto con Flask</title>
+<link rel="stylesheet" href="documentos.css"/>
+</head>
+<body>
+
+<div class="portada">
+  <div class="kicker">Gestión de Configuración y Mantenimiento de Software · Unidad 2</div>
+  <h1>Recorrido resuelto con Flask</h1>
+  <div class="sub">Los formatos F-08 a F-13 leídos en un proyecto real · Maestría en Ingeniería de Software, Universidad de La Sabana</div>
+</div>
+
+<p>Flask es el sistema de ejemplo del docente desde la Unidad 1. Este documento no diseña una estrategia para Flask:
+<b>lee la que ya tiene</b>, en su propio repositorio, para mostrar cómo se ve cada formato con evidencia real. La
+etiqueta de referencia es la versión 3.1.3; el historial se consultó el 31 de octubre de 2026.</p>
+
+<div class="recuadro">
+  <span class="rot">Cómo usar este recorrido</span>
+  <p>Léanlo antes de llenar sus formatos. Su documento es distinto: ustedes <b>diseñan</b> la estrategia para su
+  sistema. Lo que sirve de aquí es el tipo de evidencia y el nivel de detalle.</p>
+</div>
+
+<pre>git clone https://github.com/pallets/flask.git
+python herramientas/configuracion.py inventario flask --ref 3.1.3
+python herramientas/configuracion.py traza flask --desde 3.0.3 --hasta 3.1.0 --registro CHANGES.rst</pre>
+<p class="nota">Los tres CSV que producen estos comandos están en la carpeta <code>ejemplo_flask/</code> del repositorio.</p>
+
+<!-- ============================================================ F-08 -->
+<h2>F-08 · Inventario de ítems de configuración</h2>
+<p>La herramienta clasifica los 235 archivos versionados en la etiqueta 3.1.3: 88 de documentación, 61 de pruebas,
+42 de ejemplos, 24 de código fuente, 7 de gobierno del proyecto, 6 de entorno y herramientas, 4 de integración
+continua, 2 de construcción y dependencias y 1 sin categoría. Los ítems que importan para la estrategia son estos:</p>
+<table>
+  <thead><tr><th style="width:10%">ID</th><th style="width:30%">Ítem</th><th style="width:16%">Categoría</th><th>Por qué es ítem de configuración</th></tr></thead>
+  <tbody>
+    <tr><td>CI‑COD‑01</td><td><code>src/flask/</code> (24 archivos)</td><td>Código fuente</td><td>Es el producto</td></tr>
+    <tr><td>CI‑PRU‑01</td><td><code>tests/</code></td><td>Pruebas</td><td>Define qué comportamiento se verifica en cada cambio</td></tr>
+    <tr><td>CI‑DEP‑01</td><td><code>pyproject.toml</code></td><td>Construcción y dependencias</td><td>Versión declarada, dependencias mínimas, versión de Python requerida</td></tr>
+    <tr><td>CI‑DEP‑02</td><td><code>uv.lock</code></td><td>Construcción y dependencias</td><td>Fija las versiones exactas con que se prueba y se construye</td></tr>
+    <tr><td>CI‑INT‑01</td><td><code>.github/workflows/tests.yaml</code></td><td>Integración continua</td><td>Qué se prueba en cada PR y en qué plataformas</td></tr>
+    <tr><td>CI‑INT‑02</td><td><code>.github/workflows/publish.yaml</code></td><td>Integración continua</td><td>Cómo se construye y publica cada versión</td></tr>
+    <tr><td>CI‑GOB‑01</td><td><code>.github/pull_request_template.md</code></td><td>Gobierno</td><td>Qué se exige a un cambio</td></tr>
+    <tr><td>CI‑GOB‑02</td><td><code>CHANGES.rst</code></td><td>Gobierno</td><td>Registro de cambios por versión, con referencias a PR e issues</td></tr>
+    <tr><td>CI‑DOC‑01</td><td><code>docs/</code></td><td>Documentación</td><td>Se publica por versión; un cambio de API exige actualizarla</td></tr>
+  </tbody>
+</table>
+<h3>Lo que vive fuera del repositorio</h3>
+<table>
+  <thead><tr><th style="width:32%">Elemento</th><th>Dónde vive</th></tr></thead>
+  <tbody>
+    <tr><td>Paquetes publicados</td><td>PyPI, y como borrador de la entrega en GitHub</td></tr>
+    <tr><td>Issues, PR y sus vínculos</td><td>GitHub</td></tr>
+    <tr><td>Avisos de seguridad</td><td>GitHub, como avisos privados que luego se publican (la plantilla de issues lo indica)</td></tr>
+    <tr><td>Quién puede fusionar y publicar</td><td>La configuración del repositorio en GitHub, del entorno <code>publish</code> y del proyecto en PyPI</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ F-09 -->
+<div class="salto"></div>
+<h2>F-09 · Identificación y versionado</h2>
+<table>
+  <tbody>
+    <tr><td class="campo">Esquema de versiones</td><td><code>X.Y.Z</code>: la Y sube con funcionalidad nueva (3.1.0) y la Z con correcciones (3.1.1 a 3.1.3).</td></tr>
+    <tr><td class="campo">Etiquetas</td><td>Sin prefijo y <b>anotadas</b>: cada una registra quién la creó y cuándo. La 3.1.0 es del 13 de noviembre de 2024 y la 3.1.3 del 18 de febrero de 2026.</td></tr>
+    <tr><td class="campo">Ramas permanentes</td><td><code>main</code> para la siguiente versión y <code>stable</code> para las correcciones de la vigente. <code>stable</code> se integra a <code>main</code> con frecuencia. Durante el desarrollo de la 3.1.0 la rama de mantenimiento se llamaba <code>3.0.x</code>: hay 17 integraciones con ese nombre.</td></tr>
+    <tr><td class="campo">Versión declarada</td><td><code>pyproject.toml</code> declara <code>3.1.3</code> en la etiqueta 3.1.3 y <code>3.2.0.dev</code> en <code>main</code>: el artefacto dice qué es.</td></tr>
+    <tr><td class="campo">Identificación del artefacto</td><td>El flujo de publicación construye el paquete una sola vez, lo guarda como artefacto del flujo y lo usa tanto para la entrega en GitHub como para PyPI. Las dos publicaciones reciben el mismo archivo.</td></tr>
+    <tr><td class="campo">Mensajes de commit</td><td>Frases cortas en imperativo («add SESSION_COOKIE_PARTITIONED config»). Las fusiones de PR terminan con el número entre paréntesis: «(#5637)».</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ F-10 -->
+<h2>F-10 · Líneas base</h2>
+<table>
+  <thead><tr><th style="width:16%">Línea base</th><th style="width:22%">Evento que la establece</th><th style="width:20%">Qué incluye</th><th style="width:20%">Cómo se marca</th><th>Cómo se reconstruye</th></tr></thead>
+  <tbody>
+    <tr><td>De desarrollo</td><td>Cada integración a <code>main</code> con las pruebas en verde</td><td>Todo el repositorio</td><td>El commit de <code>main</code></td><td><code>git switch --detach &lt;commit&gt;</code> y <code>uv sync --locked</code></td></tr>
+    <tr><td>De mantenimiento</td><td>Cada corrección integrada a <code>stable</code></td><td>La versión vigente con sus correcciones</td><td>El commit de <code>stable</code></td><td>Igual que la anterior</td></tr>
+    <tr><td>De entrega</td><td>La creación de una etiqueta</td><td>El código, <code>uv.lock</code> y el paquete construido</td><td>Etiqueta anotada; entrega en GitHub; versión en PyPI</td><td>El flujo fija la fecha del paquete con la del último commit (<code>SOURCE_DATE_EPOCH</code>), para que construir de nuevo la misma etiqueta dé el mismo paquete</td></tr>
+  </tbody>
+</table>
+<p class="nota">Quién aprueba la línea base de entrega no está escrito en el repositorio. La etiqueta anotada registra
+quién la creó, y el entorno <code>publish</code> puede exigir aprobación en GitHub, pero esa configuración no es
+visible desde Git.</p>
+
+<!-- ============================================================ F-11 -->
+<div class="salto"></div>
+<h2>F-11 · Control de cambios</h2>
+<h3>Clases de cambio</h3>
+<table>
+  <thead><tr><th style="width:16%">Clase</th><th style="width:34%">Cuándo aplica</th><th>Qué se exige</th></tr></thead>
+  <tbody>
+    <tr><td>Menor</td><td>Erratas de documentación y cambios simples que no tocan código</td><td>PR sin issue previo (la plantilla lo permite)</td></tr>
+    <tr><td>Normal</td><td>Cualquier cambio de código</td><td>Issue previo, PR con pruebas que fallen sin el cambio, documentación, entrada en <code>CHANGES.rst</code> con el vínculo, y pruebas automáticas en verde</td></tr>
+    <tr><td>De seguridad</td><td>Vulnerabilidades</td><td>Aviso privado, no un issue público. Se corrige en <code>stable</code> y sale en una versión de corrección: la 3.1.1 y la 3.1.3 citan avisos (GHSA) en el registro de cambios</td></tr>
+  </tbody>
+</table>
+<h3>Flujo de un cambio normal</h3>
+<table>
+  <thead><tr><th style="width:22%">Paso</th><th>Evidencia en el repositorio</th></tr></thead>
+  <tbody>
+    <tr><td>Solicitud</td><td>Plantillas de issue (<code>bug-report.md</code>, <code>feature-request.md</code>); los issues en blanco están deshabilitados</td></tr>
+    <tr><td>Análisis y decisión</td><td>Discusión en el issue y revisión del PR, en GitHub</td></tr>
+    <tr><td>Implementación y verificación</td><td><code>tests.yaml</code> corre en cada PR: en la 3.1.3, 12 combinaciones de versión de Python, sistema operativo y versiones de dependencias, más verificación de tipos</td></tr>
+    <tr><td>Registro y cierre</td><td>Entrada en <code>CHANGES.rst</code>; «fixes #n» en el PR cierra el issue</td></tr>
+  </tbody>
+</table>
+<div class="recuadro crema">
+  <span class="rot">Integridad del pipeline</span>
+  <p>En la etiqueta 3.1.3, las 20 acciones externas de los cuatro flujos de CI están fijadas por hash de commit, no por
+  etiqueta. Una acción fijada por etiqueta puede cambiar sin que el repositorio cambie; fijada por hash, no. El
+  pipeline es un ítem de configuración y Flask lo trata como tal.</p>
+</div>
+
+<!-- ============================================================ F-12 -->
+<div class="salto"></div>
+<h2>F-12 · Matriz de trazabilidad</h2>
+<p>Tres entradas reales de la versión 3.1.0, seguidas hasta el final:</p>
+<table>
+  <thead><tr><th style="width:14%">Motivo</th><th style="width:14%">PR</th><th style="width:15%">Commit</th><th style="width:17%">Ítems afectados</th><th style="width:9%">Versión</th><th style="width:13%">Prueba</th><th>Dónde se rompe la cadena</th></tr></thead>
+  <tbody>
+    <tr><td>Issue 5636: <code>trusted_hosts</code> en el enrutamiento</td><td>5637 (fusión <code>7b21d43d</code>)</td><td><code>4f7156f2</code></td><td>CI‑COD‑01, CI‑DOC‑01, CI‑GOB‑02</td><td>3.1.0</td><td><code>tests/test_request.py</code></td><td>Issue → PR: solo en GitHub</td></tr>
+    <tr><td>PR 5623: retirar Python 3.8</td><td>5623</td><td><code>99ce7ed0</code></td><td>CI‑COD‑01, CI‑DEP‑01, CI‑INT‑01, CI‑DOC‑01</td><td>3.1.0</td><td>Matriz de CI</td><td>No se rompe</td></tr>
+    <tr><td>PR 5496: opción de respuestas OPTIONS automáticas</td><td>5496</td><td><code>d718ecf6</code></td><td>CI‑COD‑01, CI‑DOC‑01, CI‑GOB‑02</td><td>3.1.0</td><td>Ninguna nueva</td><td>El commit no cita el PR: solo se encuentra buscando el contenido (<code>git log -S</code>). Tampoco agrega prueba</td></tr>
+  </tbody>
+</table>
+<h3>Medición con la herramienta</h3>
+<table>
+  <thead><tr><th style="width:62%">Medida, entre 3.0.3 y 3.1.0</th><th>Resultado</th></tr></thead>
+  <tbody>
+    <tr><td>Entradas del registro de la 3.1.0 con referencia a PR o issue</td><td>10 de 10</td></tr>
+    <tr><td>Entradas que se siguen hasta un commit solo con Git</td><td>2 (PR 5623, 5624 y 5633)</td></tr>
+    <tr><td>Entradas que se siguen buscando el contenido del cambio</td><td>8: siete hasta el commit y el PR; una, la del PR 5496, solo hasta el commit</td></tr>
+    <tr><td>Fusiones con número de PR en el mensaje</td><td>51 de 70 (las otras 19 integran ramas de mantenimiento)</td></tr>
+    <tr><td>Commits individuales con referencia</td><td>3 de 93</td></tr>
+  </tbody>
+</table>
+<p class="nota">La herramienta reporta 11 entradas nuevas: las 10 de la 3.1.0 y la corrección del número de issue de
+una entrada antigua (de 5230 a 5336), que también es un cambio de trazabilidad.</p>
+
+<!-- ============================================================ F-13 -->
+<div class="salto"></div>
+<h2>F-13 · Roles y modelo</h2>
+<table>
+  <thead><tr><th style="width:26%">Rol</th><th style="width:37%">Dónde se ve en Flask</th><th>Dónde no se ve</th></tr></thead>
+  <tbody>
+    <tr><td>Responsable de configuración</td><td>Quien mantiene <code>uv.lock</code>, los flujos y el registro de cambios: se ve en el historial</td><td>No hay un rol declarado</td></tr>
+    <tr><td>Autoridad de cambios</td><td>Quien fusiona los PR: se ve en el historial</td><td>Quién tiene permiso de fusionar: configuración de GitHub</td></tr>
+    <tr><td>Desarrolladores</td><td>Autores de los commits</td><td>—</td></tr>
+    <tr><td>Responsable de entregas</td><td>Quien crea la etiqueta anotada</td><td>Quién aprueba el entorno <code>publish</code> y administra PyPI</td></tr>
+  </tbody>
+</table>
+<h3>Decisiones de Flask y riesgos que atienden</h3>
+<table>
+  <thead><tr><th style="width:44%">Riesgo (desde la Unidad 1)</th><th>Decisión que lo atiende</th></tr></thead>
+  <tbody>
+    <tr><td>Una actualización rompe a quien depende de Flask al retirar API</td><td>Registro de cambios por versión y período de obsolescencia antes de retirar</td></tr>
+    <tr><td>Una dependencia cambia sin que el repositorio cambie</td><td><code>uv.lock</code> y pruebas con <code>--locked</code>; acciones de CI fijadas por hash</td></tr>
+    <tr><td>No poder reconstruir lo que se publicó</td><td>Etiquetas anotadas, construcción reproducible y un solo paquete para GitHub y PyPI</td></tr>
+  </tbody>
+</table>
+
+<h2>Lo que este recorrido enseña para su estrategia</h2>
+<ol>
+  <li><b>Nombren lo que vive fuera del repositorio.</b> En Flask, permisos, aprobaciones y vínculos entre issue y PR
+  están en las plataformas. En su sistema pasará lo mismo, y el inventario tiene que decirlo.</li>
+  <li><b>Escriban los roles en el repositorio.</b> Un rol que solo existe en la configuración de una plataforma no se
+  puede auditar.</li>
+  <li><b>Prueben la trazabilidad con cambios reales.</b> Flask tiene un buen registro de cambios y aun así 8 de 10
+  entradas no se siguen solo con Git.</li>
+  <li><b>Traten el pipeline como ítem de configuración.</b> Fijen versiones de dependencias y de acciones de CI.</li>
+</ol>
+
+<h2>Referencias</h2>
+<p>Berczuk, S., &amp; Appleton, B. (2002). <i>Software configuration management patterns: Effective teamwork, practical integration</i>. Addison-Wesley.</p>
+<p>IEEE. (2012). <i>IEEE Standard for configuration management in systems and software engineering</i> (IEEE Std 828-2012). IEEE.</p>
+<p>Pallets. (2026). <i>Flask</i> [Repositorio de código fuente]. GitHub. https://github.com/pallets/flask</p>
+
+<div class="pie-doc">GCMS · Unidad 2 · Recorrido resuelto con Flask · César Augusto Vega Fernández · Universidad de La Sabana ·
+Licencia CC BY-NC-SA 4.0. Flask es un proyecto de Pallets con licencia BSD-3-Clause; este documento analiza su repositorio público.</div>
+</body>
+</html>

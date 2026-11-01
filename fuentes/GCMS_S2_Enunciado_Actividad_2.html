@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>GCMS S2 · Enunciado de la Actividad 2</title>
+<link rel="stylesheet" href="documentos.css"/>
+</head>
+<body>
+
+<div class="portada">
+  <div class="kicker">Gestión de Configuración y Mantenimiento de Software · Unidad 2</div>
+  <h1>Diseño de estrategia de gestión de configuración</h1>
+  <div class="sub">Enunciado de la Actividad 2 · Maestría en Ingeniería de Software, Universidad de La Sabana</div>
+</div>
+
+<h2>El encargo</h2>
+<div class="recuadro crema">
+  <p>«Ya sabemos qué le pasa al sistema. Lo que no sabemos es qué versión está en producción, qué cambió desde la
+  anterior ni quién lo aprobó. Necesitamos una estrategia de gestión de configuración que podamos aplicar desde la
+  próxima entrega.»</p>
+  <p class="nota">Responsable del sistema que eligió cada grupo.</p>
+</div>
+<p>El sistema es el mismo de la Unidad 1. El diagnóstico de la Actividad 1, en especial los riesgos de cambios no
+controlados del F-06, es el punto de partida: la estrategia tiene que responder a ellos. En la Unidad 3 la estrategia
+se implementa en Git y en un pipeline de integración y despliegue continuos, así que debe poder implementarse.</p>
+
+<h2>Actividad 2 · Diseño de estrategia de gestión de configuración</h2>
+<table>
+  <tbody>
+    <tr><td class="campo">Modalidad</td><td>Grupal, de 2 a 3 estudiantes · calificable, <b>20 %</b></td></tr>
+    <tr><td class="campo">Dedicación</td><td>16 horas</td></tr>
+    <tr><td class="campo">Entregable</td><td>Un documento técnico de <b>8 a 10 páginas</b> o un <b>README.md</b> en el repositorio del sistema,
+      con: identificación de ítems de configuración, definición de líneas base, estrategia de control de cambios,
+      definición de trazabilidad y modelo de gestión de configuración propuesto, con roles y responsabilidades.</td></tr>
+    <tr><td class="campo">Reto</td><td>¿Cómo diseñar una estrategia de gestión de configuración que garantice el control de cambios y la trazabilidad de un sistema de software?</td></tr>
+    <tr><td class="campo">Instrumento</td><td>Rúbrica, publicada en el aula virtual</td></tr>
+  </tbody>
+</table>
+
+<h3>Qué debe tener el documento</h3>
+<table>
+  <thead><tr><th style="width:5%">#</th><th style="width:27%">Sección</th><th>Qué debe mostrar</th><th style="width:12%">Formato</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Ítems de configuración</td><td>Qué se controla, por qué, quién es responsable de cada ítem y qué vive fuera del repositorio</td><td>F-08</td></tr>
+    <tr><td>2</td><td>Identificación y versionado</td><td>Cómo se nombran los ítems, cómo se numeran las versiones, qué ramas permanentes hay y cómo se identifica un artefacto entregado</td><td>F-09</td></tr>
+    <tr><td>3</td><td>Líneas base</td><td>Qué líneas base hay, qué incluye cada una, quién la aprueba, cómo se marca y cómo se reconstruye</td><td>F-10</td></tr>
+    <tr><td>4</td><td>Control de cambios</td><td>El proceso desde la solicitud hasta el cierre, la solicitud de cambio y la autoridad que decide según el riesgo</td><td>F-11</td></tr>
+    <tr><td>5</td><td>Trazabilidad</td><td>Cómo se rastrea un cambio desde su motivo hasta la versión y la prueba, y dónde vive cada vínculo</td><td>F-12</td></tr>
+    <tr><td>6</td><td>Modelo de gestión de configuración</td><td>Roles y responsabilidades, herramientas, y qué riesgo de la Unidad 1 resuelve cada decisión</td><td>F-13</td></tr>
+  </tbody>
+</table>
+
+<h3>Criterios de evaluación</h3>
+<p>La rúbrica tiene cinco criterios. Los niveles y los puntajes están en el aula virtual.</p>
+<table>
+  <thead><tr><th style="width:32%">Criterio</th><th>Qué se observa en el nivel más alto</th></tr></thead>
+  <tbody>
+    <tr><td>Identificación de ítems de configuración</td><td>Identificación completa y precisa de los ítems</td></tr>
+    <tr><td>Definición de líneas base</td><td>Líneas base claramente definidas y coherentes</td></tr>
+    <tr><td>Diseño del control de cambios</td><td>Proceso completo, estructurado y viable</td></tr>
+    <tr><td>Trazabilidad del sistema</td><td>Trazabilidad clara, completa y consistente</td></tr>
+    <tr><td>Soporte y documentación</td><td>Documento claro, técnico y bien sustentado</td></tr>
+  </tbody>
+</table>
+
+<h2>Paso a paso</h2>
+<ol>
+  <li><b>Inventariar</b> los artefactos del sistema y decidir cuáles son ítems de configuración (F-08). Si el sistema
+  está en Git, <code>herramientas/configuracion.py inventario</code> propone una primera clasificación.</li>
+  <li><b>Definir la identificación</b>: nombres, esquema de versiones y ramas permanentes (F-09).</li>
+  <li><b>Definir las líneas base</b> y cómo se marcan en Git (F-10).</li>
+  <li><b>Diseñar el control de cambios</b> y la solicitud de cambio (F-11).</li>
+  <li><b>Diseñar la trazabilidad</b> y probarla con dos o tres cambios reales del sistema (F-12). Si el sistema tiene
+  historia, <code>herramientas/configuracion.py traza</code> mide cuánto se puede rastrear hoy.</li>
+  <li><b>Integrar el modelo</b> con roles y responsabilidades (F-13), <b>verificar</b> con el F-14 y entregar.</li>
+</ol>
+<pre>python herramientas/configuracion.py inventario &lt;sistema&gt; --salida salida
+python herramientas/configuracion.py traza &lt;sistema&gt; --desde &lt;versión&gt; --hasta &lt;versión&gt; --registro CHANGELOG.md --salida salida</pre>
+
+<h2>Material de la unidad</h2>
+<ul>
+  <li>Berczuk, S., &amp; Appleton, B. (2002). <i>Software configuration management patterns: Effective teamwork, practical integration</i>. Addison-Wesley. Capítulos 1 a 3. Disponible en la biblioteca.</li>
+  <li>IEEE. (2012). <i>IEEE Standard for configuration management in systems and software engineering</i> (IEEE Std 828-2012). Secciones 1 a 4.</li>
+  <li>Kim, G., Humble, J., Debois, P., &amp; Willis, J. (2016). <i>The DevOps handbook</i>. IT Revolution Press. Capítulo sobre control de versiones. Disponible en la biblioteca.</li>
+  <li>Complementarios: Atlassian, <i>Git tutorials</i>, https://www.atlassian.com/git/tutorials; Git, <i>Documentation</i>, https://git-scm.com/docs</li>
+</ul>
+
+<h2>Errores frecuentes</h2>
+<ul>
+  <li><b>Inventariar solo el código.</b> Configuración, scripts, pipelines, dependencias y lo que vive fuera del repositorio también son ítems.</li>
+  <li><b>Líneas base que nadie aprueba.</b> Una etiqueta sin responsable ni contenido declarado es solo una marca.</li>
+  <li><b>Un comité para todo.</b> Un proceso que trata igual una errata y un cambio en producción no se va a seguir.</li>
+  <li><b>Trazabilidad declarada y no probada.</b> Rastreen dos o tres cambios reales y digan dónde se rompe la cadena.</li>
+  <li><b>Estrategia desconectada del diagnóstico.</b> Cada decisión debe responder a un riesgo identificado en la Unidad 1.</li>
+</ul>
+
+<div class="pie-doc">GCMS · Unidad 2 · Enunciado de la Actividad 2 · César Augusto Vega Fernández · Universidad de La Sabana ·
+Licencia CC BY-NC-SA 4.0</div>
+</body>
+</html>

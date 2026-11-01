@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GCMS S2 — Gestión de Configuración</title>
+<style>
+:root{--osc:#1C2B33;--txt:#31424B;--gris:#5E6E76;--claro:#EFF2F3;--linea:#CFDAE0;--crema:#F6EAE1;--coral:#C2622C;--teal:#46707E;--cafe:#9E5C3B;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:#F3F5F6;color:var(--txt);line-height:1.5;}
+.header{background:var(--osc);color:#fff;padding:26px 28px;}
+.header h1{font-size:23px;font-weight:700;}
+.header p{font-size:13.5px;color:#9FB2BA;margin-top:6px;max-width:72ch;}
+.wrap{max-width:1000px;margin:0 auto;padding:26px 20px 60px;}
+h2{font-size:15px;color:var(--osc);margin:30px 0 4px;letter-spacing:.2px;}
+h2:first-of-type{margin-top:8px;}
+.hint{font-size:13px;color:var(--gris);margin-bottom:12px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;}
+a.card{display:block;background:#fff;border:1px solid var(--linea);border-left:4px solid var(--teal);
+       border-radius:5px;padding:14px 16px;text-decoration:none;color:inherit;transition:.12s;}
+a.card:hover{border-left-color:var(--coral);box-shadow:0 2px 8px rgba(28,43,51,.09);}
+a.card b{display:block;font-size:14.5px;color:var(--osc);margin-bottom:3px;}
+a.card span{font-size:12.5px;color:var(--gris);}
+a.card.taller{border-left-color:var(--coral);}
+.card.inactiva{display:block;background:#fff;border:1px dashed var(--linea);border-radius:5px;padding:14px 16px;}
+.card.inactiva b{display:block;font-size:14.5px;color:var(--gris);margin-bottom:3px;}
+.card.inactiva span{font-size:12.5px;color:var(--gris);}
+.doc{background:#fff;border:1px solid var(--linea);border-radius:5px;padding:14px 16px;
+     display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;text-decoration:none;color:inherit;}
+.doc:hover{background:var(--claro);}
+.doc b{font-size:14px;color:var(--osc);}
+.doc span{font-size:12.5px;color:var(--gris);}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.4px;background:var(--claro);color:var(--teal);
+     padding:2px 7px;border-radius:3px;text-transform:uppercase;}
+.tag.c{background:var(--crema);color:var(--coral);}
+code{font-size:12px;background:var(--claro);padding:1px 5px;border-radius:3px;}
+.stack{display:flex;flex-direction:column;gap:10px;}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--linea);font-size:12px;color:var(--gris);}
+footer a{color:var(--teal);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Gestión de Configuración y Mantenimiento de Software · Sesión 2 — Gestión de Configuración</h1>
+  <p>Unidad 2: Gestión de configuración del software. Ítems de configuración, líneas base, control de cambios y
+     trazabilidad. Maestría en Ingeniería de Software, Universidad de La Sabana.</p>
+</div>
+
+<div class="wrap">
+
+  <h2>1 · La actividad</h2>
+  <p class="hint">Qué se pide en la Actividad 2, con qué criterios se evalúa y en qué orden conviene trabajar.</p>
+  <div class="stack">
+    <a class="doc" href="documentos/1_actividad/GCMS_S2_Enunciado_Actividad_2.pdf">
+      <span class="tag c">Empiece aquí</span><b>Enunciado de la Actividad 2</b>
+      <span>El encargo, el entregable, las secciones del documento, los criterios de evaluación, el paso a paso y los errores frecuentes.</span></a>
+  </div>
+
+  <h2>2 · Cómo se ve en un proyecto real</h2>
+  <p class="hint">La estrategia de gestión de configuración de Flask, leída en su propio repositorio.</p>
+  <div class="stack">
+    <a class="doc" href="documentos/2_ejemplo/GCMS_S2_Recorrido_Flask.pdf">
+      <span class="tag">Ejemplo</span><b>Recorrido resuelto con Flask</b>
+      <span>F-08 a F-13: inventario, identificación, líneas base, control de cambios, una matriz de trazabilidad con tres cambios reales, y roles.</span></a>
+  </div>
+
+  <h2>3 · Cómo se hace: formatos, herramienta e interactivos</h2>
+  <p class="hint">Los formatos se llenan; la herramienta se corre sobre el repositorio del sistema; los interactivos se recorren
+     en la sesión. Los <code>F-08</code> a <code>F-14</code> no se suben a la plataforma.</p>
+  <div class="stack">
+    <a class="doc" href="documentos/3_como_se_hace/GCMS_S2_Instrumentos.pdf">
+      <span class="tag c">Se llena</span><b>Instrumentos F-08 a F-14</b>
+      <span>Inventario de ítems, identificación y versionado, líneas base, control de cambios, matriz de trazabilidad,
+            roles y modelo, y verificación previa.</span></a>
+    <a class="doc" href="https://github.com/CesarAVegaF312/GCMS-S2_Gestion_de_Configuracion/blob/main/herramientas/configuracion.py">
+      <span class="tag">Herramienta</span><b>configuracion.py</b>
+      <span>Inventario de ítems de configuración y medición de la trazabilidad entre dos versiones. Python 3, sin
+            dependencias. Las instrucciones están en el README.</span></a>
+  </div>
+  <div class="grid" style="margin-top:12px">
+    <a class="card" href="interactivos/items_configuracion_interactivo.html">
+      <b>¿Es ítem de configuración?</b>
+      <span>Catorce artefactos alrededor de un sistema real para decidir qué se controla y dónde.</span></a>
+    <a class="card taller" href="interactivos/trazabilidad_interactivo.html">
+      <b>Trazabilidad de una versión</b>
+      <span>Las diez entradas de Flask 3.1.0, seguidas del motivo a la prueba, con cada eslabón roto a la vista.</span></a>
+  </div>
+
+  <h2>4 · La clase</h2>
+  <p class="hint">La sesión sincrónica, en tres bloques: conceptos, cinco ejemplos guiados y el taller en salas.</p>
+  <div class="stack">
+    <a class="doc" href="presentacion.html">
+      <span class="tag c">Presentación</span><b>Presentación web de la sesión</b>
+      <span>Las 21 diapositivas, con índice, glosario de códigos, cronómetro del taller y modo de lectura para el teléfono.</span></a>
+    <a class="doc" href="documentos/4_clase/GCMS_S2_Deck.pdf">
+      <span class="tag">Clase</span><b>Diapositivas en PDF</b>
+      <span>Las mismas 21 diapositivas, para descargar o imprimir.</span></a>
+  </div>
+
+  <h2>5 · Las otras unidades del curso</h2>
+  <p class="hint">Cada unidad tiene su propio repositorio.</p>
+  <div class="grid">
+    <a class="card" href="https://cesaravegaf312.github.io/GCMS-S1_Evolucion_y_Mantenimiento/">
+      <b>Unidad 1 · Evolución del software y mantenimiento</b>
+      <span>Leyes de Lehman, tipos de mantenimiento, deuda técnica y riesgos.</span></a>
+    <a class="card" href="https://cesaravegaf312.github.io/GCMS-S3_Control_de_Versiones_y_DevOps/">
+      <b>Unidad 3 · Control de versiones y automatización (DevOps)</b>
+      <span>Git, estrategias de ramas, versionamiento semántico y un pipeline de CI/CD funcionando.</span></a>
+    <a class="card" href="https://cesaravegaf312.github.io/GCMS-S4_Estrategias_de_Mantenimiento/">
+      <b>Unidad 4 · Estrategias de mantenimiento y evolución</b>
+      <span>Refactorización, modernización, evaluación del impacto y presentación final del proyecto.</span></a>
+  </div>
+
+  <footer>
+    Material docente de César Augusto Vega Fernández · Universidad de La Sabana ·
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA 4.0</a> ·
+    Los datos de los ejemplos provienen del repositorio público de Flask (Pallets, licencia BSD-3-Clause).
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+/* Estilo común de los documentos PDF de la Unidad 1. Se imprimen con fuentes/generar_pdf.py */
+:root{
+  --osc:#1C2B33; --txt:#31424B; --gris:#6B7A82; --claro:#EFF2F3; --linea:#CFDAE0; --crema:#F6EAE1;
+  --coral:#C2622C; --teal:#46707E; --cafe:#9E5C3B; --verde:#3F7A5B; --ambar:#C9932E; --rojo:#B03A2E;
+  --serif:'Cambria','Georgia','Times New Roman',serif;
+  --sans:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+}
+@page{size:Letter;margin:18mm 17mm 18mm 17mm}
+*{box-sizing:border-box}
+body{font-family:var(--sans);color:var(--txt);font-size:10.5pt;line-height:1.45;margin:0;background:#fff}
+h1,h2,h3{font-family:var(--serif);color:var(--osc);line-height:1.2}
+h1{font-size:22pt;margin:0 0 4pt}
+h2{font-size:14.5pt;margin:20pt 0 6pt;padding-bottom:3pt;border-bottom:2px solid var(--coral)}
+h3{font-size:11.5pt;margin:12pt 0 4pt}
+p{margin:0 0 7pt}
+ul,ol{margin:0 0 8pt;padding-left:18pt}
+li{margin-bottom:3pt}
+code{font-family:Consolas,'Courier New',monospace;font-size:9pt;background:var(--claro);padding:0 3pt;border-radius:2pt}
+pre{font-family:Consolas,'Courier New',monospace;font-size:8.6pt;background:var(--osc);color:#E6EDF0;
+  padding:8pt 10pt;border-radius:4pt;white-space:pre-wrap;margin:0 0 9pt;break-inside:avoid}
+a{color:var(--teal)}
+.portada{border-left:6px solid var(--coral);padding:4pt 0 4pt 14pt;margin-bottom:14pt}
+.kicker{font-size:8.5pt;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--coral)}
+.sub{color:var(--gris);font-size:10pt}
+.salto{break-before:page}
+.recuadro{background:var(--claro);border-left:4px solid var(--teal);padding:7pt 10pt;margin:6pt 0 10pt;break-inside:avoid}
+.recuadro.crema{background:var(--crema);border-left-color:var(--coral)}
+.recuadro p:last-child,.recuadro ul:last-child{margin-bottom:0}
+.rot{font-size:8pt;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:2pt}
+.recuadro.crema .rot{color:var(--coral)}
+.porcompletar{background:#FFF3C4;color:#6B4E00;padding:0 3pt;border-radius:2pt;font-weight:700}
+table{width:100%;border-collapse:collapse;margin:4pt 0 10pt;font-size:9.3pt;break-inside:auto}
+tr{break-inside:avoid}
+th{background:var(--osc);color:#fff;text-align:left;padding:4pt 6pt;font-weight:700}
+td{border:1px solid var(--linea);padding:4pt 6pt;vertical-align:top}
+tbody tr:nth-child(even) td{background:#F8FAFA}
+td.campo{width:30%;font-weight:700;color:var(--osc);background:var(--claro)!important}
+td.vacio{height:24pt}
+td.vacio.alto{height:48pt}
+.formato-cab{display:flex;justify-content:space-between;align-items:baseline;gap:10pt;
+  border-bottom:2px solid var(--coral);padding-bottom:3pt;margin:0 0 6pt}
+.formato-cab h2{border:none;margin:0;padding:0}
+.codigo{font-family:var(--serif);font-weight:700;color:var(--coral);font-size:15pt;white-space:nowrap}
+.dato{font-variant-numeric:tabular-nums;text-align:right}
+.nota{font-size:8.6pt;color:var(--gris)}
+.pie-doc{margin-top:18pt;padding-top:6pt;border-top:1px solid var(--linea);font-size:8pt;color:var(--gris)}
+figure{margin:4pt 0 10pt;break-inside:avoid}
+figcaption{font-size:8.6pt;color:var(--gris);margin-top:3pt}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+th code{background:rgba(255,255,255,.15);color:#fff}
+h2,h3,.formato-cab{break-after:avoid}

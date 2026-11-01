@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>GCMS S2 · Instrumentos F-08 a F-14</title>
+<link rel="stylesheet" href="documentos.css"/>
+</head>
+<body>
+
+<div class="portada">
+  <div class="kicker">Gestión de Configuración y Mantenimiento de Software · Unidad 2</div>
+  <h1>Instrumentos F-08 a F-14</h1>
+  <div class="sub">Gestión de configuración del software · Maestría en Ingeniería de Software, Universidad de La Sabana</div>
+</div>
+
+<p>Estos siete formatos preparan la Actividad 2. Se llenan en grupo, en orden, sobre el mismo sistema de la Unidad 1.
+<b>No se suben a la plataforma</b>: son el borrador de las secciones del documento o del README.</p>
+
+<table>
+  <thead><tr><th>Formato</th><th>Qué prepara</th><th>Sección del documento</th></tr></thead>
+  <tbody>
+    <tr><td><b>F-08</b> Inventario de ítems de configuración</td><td>Qué se controla, por qué y quién responde</td><td>1</td></tr>
+    <tr><td><b>F-09</b> Identificación y versionado</td><td>Nombres, versiones, ramas permanentes e identificación de artefactos</td><td>2</td></tr>
+    <tr><td><b>F-10</b> Líneas base</td><td>Puntos de referencia aprobados y cómo se marcan</td><td>3</td></tr>
+    <tr><td><b>F-11</b> Control de cambios</td><td>El proceso, la solicitud de cambio y la autoridad según el riesgo</td><td>4</td></tr>
+    <tr><td><b>F-12</b> Matriz de trazabilidad</td><td>Del motivo de un cambio a la versión y la prueba</td><td>5</td></tr>
+    <tr><td><b>F-13</b> Roles y modelo de gestión de configuración</td><td>Quién hace qué, con qué herramientas, y qué riesgo resuelve cada decisión</td><td>6</td></tr>
+    <tr><td><b>F-14</b> Verificación previa</td><td>Que la estrategia esté completa, sea coherente y se pueda implementar</td><td>Antes de entregar</td></tr>
+  </tbody>
+</table>
+
+<div class="recuadro crema">
+  <span class="rot">Punto de partida</span>
+  <p>Tengan a mano el F-06 de la Unidad 1. Cada decisión de esta unidad debería responder a alguno de esos riesgos, y
+  el F-13 lo hace explícito.</p>
+</div>
+
+<!-- ============================================================ F-08 -->
+<div class="salto"></div>
+<div class="formato-cab"><h2>Inventario de ítems de configuración</h2><span class="codigo">F-08</span></div>
+<p>Un ítem de configuración es cualquier artefacto cuyo cambio puede afectar el comportamiento o la reproducibilidad
+del sistema. Si el sistema está en Git, <code>herramientas/configuracion.py inventario</code> produce
+<code>inventario_ci.csv</code> con una categoría sugerida para cada archivo; la decisión se toma aquí.</p>
+<table>
+  <thead><tr><th style="width:9%">ID</th><th style="width:23%">Ítem (ruta o nombre)</th><th style="width:14%">Categoría</th><th style="width:22%">Por qué es ítem de configuración</th><th style="width:12%">Responsable</th><th style="width:10%">Dónde vive</th><th>Línea base</th></tr></thead>
+  <tbody>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+<h3>Lo que vive fuera del repositorio</h3>
+<table>
+  <thead><tr><th style="width:30%">Elemento</th><th>Dónde vive y cómo se controla</th><th style="width:20%">Responsable</th></tr></thead>
+  <tbody>
+    <tr><td>Artefactos entregados (paquetes, imágenes)</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Secretos y credenciales</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Configuración de la plataforma (permisos, ramas protegidas, entornos)</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Datos y esquemas de base de datos</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Tickets, solicitudes de cambio y sus vínculos</td><td class="vacio"></td><td></td></tr>
+  </tbody>
+</table>
+<table>
+  <tbody>
+    <tr><td class="campo">Qué se decidió no controlar y por qué (archivos generados, cachés, entornos locales)</td><td class="vacio alto"></td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ F-09 -->
+<div class="salto"></div>
+<div class="formato-cab"><h2>Identificación y versionado</h2><span class="codigo">F-09</span></div>
+<table>
+  <tbody>
+    <tr><td class="campo">Convención de identificadores de los ítems (ejemplo: CI-COD-01 para código, CI-CFG-01 para configuración)</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Esquema de versiones del sistema y qué significa cada número</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Formato de las etiquetas en Git (con o sin prefijo, anotadas o ligeras)</td><td class="vacio"></td></tr>
+    <tr><td class="campo">Ramas permanentes y para qué sirve cada una</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Dónde declara el sistema su propia versión y cómo se mantiene igual a la etiqueta</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Cómo se identifica un artefacto entregado (nombre, versión, hash)</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Convención de mensajes de commit y de nombres de ramas de trabajo</td><td class="vacio alto"></td></tr>
+  </tbody>
+</table>
+<p class="nota">El esquema de versiones se profundiza en la Unidad 3 con el versionamiento semántico. Aquí basta con
+que sea explícito y consistente.</p>
+
+<!-- ============================================================ F-10 -->
+<div class="salto"></div>
+<div class="formato-cab"><h2>Líneas base</h2><span class="codigo">F-10</span></div>
+<p>Una línea base es un conjunto de ítems en un estado acordado, revisado y aprobado. A partir de ella, todo cambio
+pasa por el control de cambios.</p>
+<table>
+  <thead><tr><th style="width:14%">Línea base</th><th style="width:18%">Evento que la establece</th><th style="width:20%">Ítems que incluye (F-08)</th><th style="width:13%">Quién aprueba</th><th style="width:17%">Cómo se marca</th><th>Cómo se reconstruye</th></tr></thead>
+  <tbody>
+    <tr><td class="vacio alto"></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio alto"></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio alto"></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+<div class="recuadro">
+  <span class="rot">Una buena línea base</span>
+  <ul>
+    <li>Tiene nombre y fecha.</li>
+    <li>Dice qué ítems incluye y en qué versión.</li>
+    <li>Se sabe quién la aprobó.</li>
+    <li>Otra persona puede reconstruirla y obtener exactamente lo mismo.</li>
+  </ul>
+</div>
+<pre>git tag -a v1.0.0 -m "Línea base de entrega 1.0.0, aprobada por &lt;rol&gt;"
+git show v1.0.0          # quién, cuándo y qué incluye
+git switch --detach v1.0.0   # reconstruir el estado exacto</pre>
+
+<!-- ============================================================ F-11 -->
+<div class="salto"></div>
+<div class="formato-cab"><h2>Control de cambios</h2><span class="codigo">F-11</span></div>
+<h3>Clases de cambio y autoridad</h3>
+<table>
+  <thead><tr><th style="width:18%">Clase</th><th style="width:30%">Cuándo aplica</th><th style="width:22%">Quién decide</th><th>Qué se exige antes de integrar</th></tr></thead>
+  <tbody>
+    <tr><td>Menor</td><td class="vacio alto"></td><td></td><td></td></tr>
+    <tr><td>Normal</td><td class="vacio alto"></td><td></td><td></td></tr>
+    <tr><td>Urgente</td><td class="vacio alto"></td><td></td><td></td></tr>
+  </tbody>
+</table>
+<h3>Flujo</h3>
+<table>
+  <thead><tr><th style="width:20%">Paso</th><th>Qué pasa en su sistema y con qué herramienta</th><th style="width:18%">Responsable</th></tr></thead>
+  <tbody>
+    <tr><td>Solicitud</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Análisis de impacto</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Decisión</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Implementación y verificación</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Registro y cierre</td><td class="vacio"></td><td></td></tr>
+  </tbody>
+</table>
+<h3>Solicitud de cambio</h3>
+<table>
+  <tbody>
+    <tr><td class="campo">Identificador y fecha</td><td class="vacio"></td></tr>
+    <tr><td class="campo">Solicitante</td><td class="vacio"></td></tr>
+    <tr><td class="campo">Descripción y motivo</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Tipo de mantenimiento (correctivo, adaptativo, perfectivo, preventivo)</td><td class="vacio"></td></tr>
+    <tr><td class="campo">Ítems de configuración afectados (IDs del F-08)</td><td class="vacio"></td></tr>
+    <tr><td class="campo">Impacto y riesgo</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Clase de cambio y decisión (aprobado, rechazado, aplazado), quién y cuándo</td><td class="vacio"></td></tr>
+    <tr><td class="campo">PR, commits y versión en que quedó</td><td class="vacio"></td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ F-12 -->
+<div class="salto"></div>
+<div class="formato-cab"><h2>Matriz de trazabilidad</h2><span class="codigo">F-12</span></div>
+<p>Se llena con dos o tres cambios reales del sistema, para probar que la cadena funciona. Si el sistema tiene
+historia, <code>herramientas/configuracion.py traza</code> mide cuánto se puede rastrear hoy.</p>
+<table>
+  <thead><tr><th style="width:15%">Motivo (requisito o issue)</th><th style="width:15%">Solicitud o PR</th><th style="width:15%">Commits</th><th style="width:15%">Ítems afectados</th><th style="width:12%">Versión o línea base</th><th style="width:13%">Prueba</th><th>Dónde se rompe la cadena</th></tr></thead>
+  <tbody>
+    <tr><td class="vacio alto"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio alto"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="vacio alto"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th style="width:34%">Vínculo</th><th>Dónde vive (Git, plataforma, otro) y qué pasa si se cambia de plataforma</th></tr></thead>
+  <tbody>
+    <tr><td>Motivo → solicitud</td><td class="vacio"></td></tr>
+    <tr><td>Solicitud → commits</td><td class="vacio"></td></tr>
+    <tr><td>Commits → versión</td><td class="vacio"></td></tr>
+    <tr><td>Versión → prueba</td><td class="vacio"></td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ F-13 -->
+<div class="salto"></div>
+<div class="formato-cab"><h2>Roles y modelo de gestión de configuración</h2><span class="codigo">F-13</span></div>
+<table>
+  <thead><tr><th style="width:24%">Rol</th><th style="width:22%">Persona del grupo</th><th>Responsabilidades</th></tr></thead>
+  <tbody>
+    <tr><td>Responsable de configuración</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Autoridad de cambios</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Desarrolladores</td><td class="vacio"></td><td></td></tr>
+    <tr><td>Responsable de entregas</td><td class="vacio"></td><td></td></tr>
+  </tbody>
+</table>
+<table>
+  <tbody>
+    <tr><td class="campo">Herramientas (repositorio, gestor de tickets, CI, repositorio de artefactos)</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Dónde quedan escritos los roles (README, CODEOWNERS, otro)</td><td class="vacio"></td></tr>
+    <tr><td class="campo">Cómo se registra el estado: qué versión de cada ítem está en cada línea base</td><td class="vacio alto"></td></tr>
+    <tr><td class="campo">Cómo y cuándo se audita que lo entregado coincide con lo aprobado</td><td class="vacio alto"></td></tr>
+  </tbody>
+</table>
+<h3>Decisiones y riesgos de la Unidad 1</h3>
+<table>
+  <thead><tr><th style="width:40%">Riesgo del F-06</th><th>Decisión de la estrategia que lo atiende</th></tr></thead>
+  <tbody>
+    <tr><td class="vacio alto"></td><td></td></tr>
+    <tr><td class="vacio alto"></td><td></td></tr>
+    <tr><td class="vacio alto"></td><td></td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ F-14 -->
+<div class="salto"></div>
+<div class="formato-cab"><h2>Verificación previa a la entrega</h2><span class="codigo">F-14</span></div>
+<table>
+  <thead><tr><th style="width:76%">Verificación</th><th>Sí / No</th></tr></thead>
+  <tbody>
+    <tr><td>El inventario incluye configuración, construcción, pipelines y lo que vive fuera del repositorio, no solo código</td><td></td></tr>
+    <tr><td>Cada ítem tiene identificador, responsable y línea base</td><td></td></tr>
+    <tr><td>El esquema de versiones y las ramas permanentes están definidos</td><td></td></tr>
+    <tr><td>Cada línea base dice qué incluye, quién la aprueba, cómo se marca y cómo se reconstruye</td><td></td></tr>
+    <tr><td>El control de cambios distingue clases según el riesgo y dice quién decide en cada una</td><td></td></tr>
+    <tr><td>La trazabilidad se probó con cambios reales y se dice dónde vive cada vínculo</td><td></td></tr>
+    <tr><td>Cada rol tiene dueño y los roles quedan escritos en el repositorio</td><td></td></tr>
+    <tr><td>Cada riesgo de cambios no controlados del F-06 tiene una decisión que lo atiende</td><td></td></tr>
+    <tr><td>La estrategia se puede implementar en Git en la Unidad 3</td><td></td></tr>
+    <tr><td>El documento tiene de 8 a 10 páginas, o es un README.md completo, y cita con norma APA 7</td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="pie-doc">GCMS · Unidad 2 · Instrumentos F-08 a F-14 · César Augusto Vega Fernández · Universidad de La Sabana ·
+Licencia CC BY-NC-SA 4.0</div>
+</body>
+</html>
